@@ -220,7 +220,7 @@ cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal formatoptions+=roq]])
 cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4 nolist]])
 cmd([[au BufEnter,BufNewFile,BufRead *.tmpl setlocal filetype=html]])
 cmd([[augroup END]])
-cmd([[autocmd BufWritePre *.go lua goimports(1000)]])
+cmd([[autocmd BufWritePre *.go lua Goimports(1000)]])
 
 -- Rust
 cmd([[augroup ft_rust]])
@@ -259,7 +259,6 @@ cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentW
 cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
 cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
 
-
 -- JS & TS 
 cmd([[augroup ft_typescript]])
 cmd([[au!]])
@@ -273,16 +272,15 @@ cmd([[autocmd FileType json syntax match Comment +\/\/.\+$+]])
 ----------------------------------
 -- LSP Settings ------------------
 ----------------------------------
-fn.sign_define("LspDiagnosticsSignError", { text = "▬" })
-fn.sign_define("LspDiagnosticsSignWarning", { text = "▬" })
-fn.sign_define("LspDiagnosticsSignInformation", { text = "▬" })
-fn.sign_define("LspDiagnosticsSignHint", { text = "▬" })
+--fn.sign_define("LspDiagnosticsSignError", { text = "▬" })
+--fn.sign_define("LspDiagnosticsSignWarning", { text = "▬" })
+--fn.sign_define("LspDiagnosticsSignInformation", { text = "▬" })
+--fn.sign_define("LspDiagnosticsSignHint", { text = "▬" })
 
-vim.cmd([[hi! link LspReferenceText CursorColumn]])
-vim.cmd([[hi! link LspReferenceRead CursorColumn]])
-vim.cmd([[hi! link LspReferenceWrite CursorColumn]])
+cmd([[hi! link LspReferenceText CursorColumn]])
+cmd([[hi! link LspReferenceRead CursorColumn]])
+cmd([[hi! link LspReferenceWrite CursorColumn]])
 
-vim.cmd([[hi! link LspSagaFinderSelection CursorColumn]])
-vim.cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
-
+cmd([[hi! link LspSagaFinderSelection CursorColumn]])
+cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
 

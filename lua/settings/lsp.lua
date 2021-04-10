@@ -139,16 +139,95 @@ M.setup = function()
       gopls = { analyses = { unusedparams = true }, staticcheck = true },
     },
   })
+
   lsp_config.clangd.setup {
-    on_attach = on_attach,
     root_dir = function() return vim.loop.cwd() end
   }
 
   --vim.lsp.set_log_level('trace')
+
+  local filetypes = {
+    javascript = "eslint",
+    typescript = "eslint",
+    typescriptreact = "eslint",
+    python = "flake8"
+  }
+
+  local linters = {
+    eslint = {
+      sourceName = "eslint",
+      command = "eslint_d",
+      rootPatterns = {".eslintrc.json", "package.json"},
+      debounce = 100,
+      args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
+      parseJson = {
+        errorsRoot = "[0].messages",
+        line = "line",
+        column = "column",
+        endLine = "endLine",
+        endColumn = "endColumn",
+        message = "${message} [${ruleId}]",
+        security = "severity"
+      },
+      securities = {[2] = "error", [1] = "warning"}
+    },
+    flake8 = {
+      comman= "flake8",
+      debounce= 100,
+      args= { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
+      offsetLine= 0,
+      offsetColumn= 0,
+      sourceName= "flake8",
+      formatLines= 1,
+      formatPattern= {
+        "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
+        {
+          line= 1,
+          column= 2,
+          security= 3,
+          message= 4
+        }
+      },
+      securities= {
+        ["W"]= "warning",
+        ["E"]= "error",
+        ["F"]= "error",
+        ["C"]= "error",
+        ["N"]= "error"
+      }
+    }
+  }
+
+  local formatters = {
+    prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}},
+    black = {
+      command = "black",
+      args= {"--quiet", "-"}
+    }
+  }
+
+  local formatFiletypes = {
+    javascript = "prettier",
+    typescript = "prettier",
+    typescriptreact = "prettier",
+    python = "black"
+  }
+
+  lsp_config.diagnosticls.setup {
+    filetypes = vim.tbl_keys(filetypes),
+    init_options = {
+      filetypes = filetypes,
+      linters = linters,
+      formatters = formatters,
+      formatFiletypes = formatFiletypes
+    }
+  }
+
+
 end
 
 -- Go imports
-function goimports(timeoutms)
+function Goimports(timeoutms)
   local context = { source = { organizeImports = true } }
   vim.validate { context = { context, "t", true } }
 
