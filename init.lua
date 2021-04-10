@@ -5,8 +5,16 @@ local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
 
+
 -- Colors!
 cmd("colorscheme onedark")
+cmd([[let g:gruvbox_contrast_dark = 'hard']])
+cmd([[if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif]])
+cmd([[let ayucolor="mirage"]])
+
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
@@ -79,19 +87,14 @@ opt("b", "fileformat", "unix")
 g["mapleader"] = " "
 g["netrw_gx"] = "<cWORD>"
 
---nnoremap <leader>n :set relativenumber! relativenumber?<CR>
-map("n", "<leader>n", [[:set relativenumber! relativenumber?<CR>]])
-
--- plugin variables
--- polyglot's markdown settings
---g["vim_markdown_conceal"] = 0
---g["vim_markdown_conceal_code_blocks"] = 0
+map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 
 -- nvim-metals
 g["metals_server_version"] = "0.10.2-SNAPSHOT"
 
 -- LSP
-map("n", "gD", [[<cmd>lua vim.lsp.buf.definition()<CR>]])
+map("n", "gD", [[<cmd>lua vim.lsp.buf.declaration()<CR>]])
+map("n", "gd", [[<cmd>lua vim.lsp.buf.definition()<CR>]])
 map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
 map("n", "gi", [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
 map("n", "gr", [[<cmd>lua vim.lsp.buf.references()<CR>]])
@@ -103,9 +106,23 @@ map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action(
 map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
 map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
+map("n", "<leader>e", [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]]) -- buffer diagnostics only
 map("n", "]c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>]])
 map("n", "[c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>]])
 map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
+map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+
+-- possibly delete stuff below
+map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>' )
+map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>' )
+map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>' )
+map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>' )
+map('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>' )
+map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>' )
+map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>' )
+map('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>' )
+-- up to here of course
 
 -- completion
 map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
@@ -131,12 +148,34 @@ map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
 
+--map('n', '<F5>', '<cmd>lua require"dap".continue()<CR>')
+--map('n', '<leader>dtb', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
+--map('n', '<leader>dso', '<cmd>lua require"dap".step_over()<CR>')
+--map('n', '<leader>dsi', '<cmd>lua require"dap".step_into()<CR>')
+
 -- Nvim-tree 
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
 cmd([[let g:nvim_tree_side = 'right']])
 cmd([[let g:nvim_tree_add_trailing = 1]])
-cmd([[let g:nvim_tree_quit_on_open = 1]])
+--cmd([[let g:nvim_tree_quit_on_open = 1]])
+
+-- Fugitive
+map("n", "<leader>gs", [[:G<CR>]])
+map("n", "<leader>gj", [[:diffget //3<CR>]])
+map("n", "<leader>gf", [[:diffget //2<CR>]])
+
+-- Markdown Preview
+map("n", "<C-s>", [[<Plug>MarkdownPreviewToggle]])
+
+-- Copy and stuff
+map("n", "<leader>y", [["+y]])
+map("v", "<leader>y", [["+y]])
+map("n", "<leader>V", [[gg"+yG]])
+
+-- 端末
+map("t", "<Esc>", [[<C-\><C-n>]])
+map("n", "<leader>;t", [[:terminal<CR>]])
 
 
 ----------------------------------
@@ -148,6 +187,11 @@ cmd([[autocmd BufEnter *.js call matchadd('ColorColumn', '\%81v', 100)]])
 cmd([[autocmd BufReadPost,BufNewFile *.md,*.txt,COMMIT_EDITMSG set wrap linebreak nolist spell spelllang=en_us complete+=kspell]])
 cmd([[autocmd BufReadPost,BufNewFile .html,*.txt,*.md,*.adoc set spell spelllang=en_us]])
 cmd([[autocmd TermOpen * startinsert]])
+
+-- tslime.vim
+cmd([[let g:tslime_ensure_trailing_newlines = 1]]) -- Always send newline
+cmd([[let g:tslime_normal_mapping = '<leader>sl']])
+cmd([[let g:tslime_visual_mapping = '<leader>sl']])
 
 -- LSP
 cmd([[augroup lsp]])
@@ -162,6 +206,75 @@ cmd([[augroup colorset]])
 cmd([[autocmd!]])
 cmd([[autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" } })]])
 cmd([[augroup END]])
+cmd([[set nohlsearch]])
+
+
+----------------------------------
+-- Language Settings ------------------
+----------------------------------
+
+-- Go
+cmd([[augroup ft_golang]])
+cmd([[au!]])
+cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal formatoptions+=roq]])
+cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4 nolist]])
+cmd([[au BufEnter,BufNewFile,BufRead *.tmpl setlocal filetype=html]])
+cmd([[augroup END]])
+cmd([[autocmd BufWritePre *.go lua goimports(1000)]])
+
+-- Rust
+cmd([[augroup ft_rust]])
+cmd([[au!]])
+cmd([[au BufEnter,BufNewFile,BufRead *.rs :compiler cargo]])
+cmd([[au FileType rust set nolist]])
+cmd([[augroup END]])
+
+-- Racket
+cmd([[au BufEnter,BufNewFile,BufRead *.rkt set filetype=racket]])
+
+-- Python
+cmd([[au BufNewFile,BufRead *.py
+    \| set tabstop=4
+    \| set softtabstop=4
+    \| set shiftwidth=4
+    \| set textwidth=79
+    \| set expandtab
+    \| set autoindent
+    \| set fileformat=unix]])
+
+
+-- C & C++
+cmd([[augroup ft_c]])
+cmd([[au!]])
+cmd([[au BufNewFile,BufRead *.h,*.c setlocal filetype=c]])
+cmd([[au Filetype c setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
+cmd([[au Filetype c setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
+cmd([[augroup END]])
+
+--[[
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "IndentWidth": 4,
+            \ "TabWidth": 4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "BreakBeforeBraces" : "Stroustrup"
+            \ }
+]]
+-- let g:clang_format#auto_format = 1
+-- map to <Leader>cf in C++ code
+cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
+cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
+
+
+-- JS & TS 
+cmd([[augroup ft_typescript]])
+cmd([[au!]])
+cmd([[au Filetype typescript setlocal shiftwidth=2 softtabstop=2 expandtab]])
+cmd([[augroup END]])
+
+-- JSON color highlighting
+cmd([[autocmd FileType json syntax match Comment +\/\/.\+$+]])
 
 
 ----------------------------------
@@ -176,6 +289,7 @@ vim.cmd([[hi! link LspReferenceText CursorColumn]])
 vim.cmd([[hi! link LspReferenceRead CursorColumn]])
 vim.cmd([[hi! link LspReferenceWrite CursorColumn]])
 
-vim.cmd([[hi! link LspSagaFinderSelection CursorColumn]])
+--vim.cmd([[hi! link LspSagaFinderSelection CursorColumn]])
 --vim.cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
+
 

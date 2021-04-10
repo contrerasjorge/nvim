@@ -1,5 +1,13 @@
 local M = {}
 
+--local servers = {'diagnosticls', 'cssls', 'html', 'pyright', 'gopls', 'rust_analyzer'}
+--for _, lsp in ipairs(servers) do
+  --lsp_config[lsp].setup {
+    --on_attach = on_attach,
+  --}
+--end
+
+
 M.setup = function()
   local shared_diagnostic_settings = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
   local lsp_config = require("lspconfig")
@@ -60,13 +68,15 @@ M.setup = function()
     require("metals").setup_dap()
   end
 
-  --[[
   -- sumneko lua
   lsp_config.sumneko_lua.setup({
+    --/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server
     cmd = {
-      "/Users/ckipp/Documents/lua-workspace/lua-language-server/bin/macOS/lua-language-server",
+      --"/Users/contrerasjorge/.cache/lua-workspace/lua-language-server/bin/macOS/lua-language-server",
+      "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/bin/macOS/lua-language-server",
       "-E",
-      "/Users/ckipp/Documents/lua-workspace/lua-language-server/main.lua",
+      --"/Users/contrerasjorge/.cache/lua-workspace/lua-language-server/main.lua",
+      "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/main.lua",
     },
     commands = {
       Format = {
@@ -93,20 +103,35 @@ M.setup = function()
     },
   })
 
-  lsp_config.dockerls.setup({})
+  --lsp_config.dockerls.setup({})
+  --lsp_config.jsonls.setup({
+    --commands = {
+      --Format = {
+        --function()
+          --vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
+        --end,
+      --},
+    --},
+  --})
+  --lsp_config.yamlls.setup({})
+  --lsp_config.racket_langserver.setup({})
   lsp_config.html.setup({})
-  lsp_config.jsonls.setup({
-    commands = {
-      Format = {
-        function()
-          vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
-        end,
-      },
-    },
+  lsp_config.cssls.setup({})
+  lsp_config.rust_analyzer.setup({})
+--local servers = {'diagnosticls', 'cssls', 'html', 'pyright', 'gopls', 'rust_analyzer'}
+  --lsp_config.diagnosticls.setup({})
+
+  lsp_config.tsserver.setup({
+    on_attach = function(client, bufnr)
+      require("nvim-lsp-ts-utils").setup {}
+
+      -- no default maps, so you may want to define some here
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", {silent = true})
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "qq", ":TSLspFixCurrent<CR>", {silent = true})
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", {silent = true})
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", {silent = true})
+    end
   })
-  lsp_config.tsserver.setup({})
-  lsp_config.yamlls.setup({})
-  lsp_config.racket_langserver.setup({})
 
   lsp_config.gopls.setup({
     cmd = { "gopls", "serve" },
@@ -114,18 +139,43 @@ M.setup = function()
       gopls = { analyses = { unusedparams = true }, staticcheck = true },
     },
   })
+  lsp_config.clangd.setup {
+    on_attach = on_attach,
+    root_dir = function() return vim.loop.cwd() end
+  }
 
-  --lsp_config.groovyls.setup({
-  --  cmd = {
-  --    "java",
-  --    "-jar",
-  --    "/Users/ckipp/Documents/groovy-workspace/groovy-language-server/build/libs/groovy-language-server-all.jar",
-  --  },
-  --})
-
-  -- Uncomment for trace logs from neovim
   --vim.lsp.set_log_level('trace')
-  --]]
+end
+
+-- Go imports
+function goimports(timeoutms)
+  local context = { source = { organizeImports = true } }
+  vim.validate { context = { context, "t", true } }
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  -- See the implementation of the textDocument/codeAction callback
+  -- (lua/vim/lsp/handler.lua) for how to do this properly.
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+  if not result or next(result) == nil then return end
+  local actions = result[1].result
+  if not actions then return end
+  local action = actions[1]
+
+  -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
+  -- is a CodeAction, it can have either an edit, a command or both. Edits
+  -- should be executed first.
+  if action.edit or type(action.command) == "table" then
+    if action.edit then
+      vim.lsp.util.apply_workspace_edit(action.edit)
+    end
+    if type(action.command) == "table" then
+      vim.lsp.buf.execute_command(action.command)
+    end
+  else
+    vim.lsp.buf.execute_command(action)
+  end
 end
 
 return M

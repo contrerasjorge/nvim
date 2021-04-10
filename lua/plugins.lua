@@ -1,6 +1,10 @@
 return require("packer").startup(function(use)
   --use({ "glepnir/lspsaga.nvim" })
+  use({ "ckipp01/stylua-nvim" })
+  use({ "sjl/tslime.vim" })
+  use({ "christoomey/vim-tmux-navigator" })
   use({ "joshdick/onedark.vim" })
+  use({ "ayu-theme/ayu-vim" })
   --use({ "junegunn/goyo.vim", opt = true })
   use({ "hrsh7th/nvim-compe", requires = { { "hrsh7th/vim-vsnip" } } })
   use({
