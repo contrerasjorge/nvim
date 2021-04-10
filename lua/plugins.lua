@@ -1,5 +1,5 @@
 return require("packer").startup(function(use)
-  --use({ "glepnir/lspsaga.nvim" })
+  use({ "glepnir/lspsaga.nvim" })
   use({ "ckipp01/stylua-nvim" })
   use({ "sjl/tslime.vim" })
   use({ "christoomey/vim-tmux-navigator" })
