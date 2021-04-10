@@ -148,11 +148,6 @@ map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
 
---map('n', '<F5>', '<cmd>lua require"dap".continue()<CR>')
---map('n', '<leader>dtb', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
---map('n', '<leader>dso', '<cmd>lua require"dap".step_over()<CR>')
---map('n', '<leader>dsi', '<cmd>lua require"dap".step_into()<CR>')
-
 -- Nvim-tree 
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
@@ -176,6 +171,10 @@ map("n", "<leader>V", [[gg"+yG]])
 -- 端末
 map("t", "<Esc>", [[<C-\><C-n>]])
 map("n", "<leader>;t", [[:terminal<CR>]])
+
+cmd([[let g:NERDCreateDefaultMappings = 0]])
+cmd([[let g:NERDSpaceDelims = 1]])
+map("n", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
 
 
 ----------------------------------
