@@ -5,7 +5,6 @@ local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
 
-
 -- Colors!
 cmd("colorscheme onedark")
 cmd([[let g:gruvbox_contrast_dark = 'hard']])
@@ -15,10 +14,8 @@ cmd([[if exists('+termguicolors')
 endif]])
 cmd([[let ayucolor="mirage"]])
 
-
 -- Run your lua good
 map("n", "<leader>lu", ":luafile %<CR>")
-
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
@@ -31,24 +28,28 @@ require("settings.telescope").setup()
 require("settings.lsp").setup()
 
 require("nvim-autopairs").setup()
-require('gitsigns').setup()
+require("gitsigns").setup()
 
 require("nvim-treesitter.configs").setup({
-  playground = { enable = true },
-  query_linter = {
-    enable = true,
-    use_virtual_text = true,
-    lint_events = { "BufWrite", "CursorHold" },
-  },
-  ensure_installed = "maintained",
-  highlight = { enable = true },
+	playground = { enable = true },
+	query_linter = {
+		enable = true,
+		use_virtual_text = true,
+		lint_events = { "BufWrite", "CursorHold" },
+	},
+	ensure_installed = "maintained",
+	highlight = { enable = true },
 })
 
-require("lspsaga").init_lsp_saga({
-  server_filetype_map = { metals = { "sbt", "scala" } },
+local saga = require 'lspsaga'
+saga.init_lsp_saga({
+  code_action_icon = '💡',
+	server_filetype_map = { metals = { "sbt", "scala" } },
   code_action_prompt = { virtual_text = false },
 })
 
+-- require("lspsaga").init_lsp_saga({
+-- })
 
 ----------------------------------
 -- OPTIONS -----------------------
@@ -56,6 +57,11 @@ require("lspsaga").init_lsp_saga({
 local indent = 2
 vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
 vim.o.path = vim.o.path .. "**"
+
+
+
+cmd([[set nohlsearch]])
+-- cmd([[set cursorline]])
 
 -- global
 opt("o", "termguicolors", true)
@@ -69,6 +75,9 @@ opt("o", "ignorecase", true)
 opt("o", "smartcase", true)
 opt("o", "clipboard", "unnamed")
 opt("o", "completeopt", "menu,menuone,noselect")
+opt("o", "cursorline", true)
+--opt("o", "nohlsearch", true)
+--opt("o", "colorcolumn", "80")
 
 -- window-scoped
 opt("w", "wrap", false)
@@ -82,7 +91,6 @@ opt("b", "softtabstop", indent)
 opt("b", "expandtab", true)
 opt("b", "fileformat", "unix")
 
-
 ----------------------------------
 -- VARIABLES ---------------------
 ----------------------------------
@@ -92,39 +100,38 @@ g["netrw_gx"] = "<cWORD>"
 map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 
 -- nvim-metals
-g["metals_server_version"] = "0.10.2-SNAPSHOT"
+-- g["metals_server_version"] = "0.10.2-SNAPSHOT"
 
 -- LSP
-map("n", "gD", [[<cmd>lua vim.lsp.buf.declaration()<CR>]])
-map("n", "gd", [[<cmd>lua vim.lsp.buf.definition()<CR>]])
-map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
-map("n", "gi", [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
-map("n", "gr", [[<cmd>lua vim.lsp.buf.references()<CR>]])
+map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
+map('n', 'gd', [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
+map('n', 'K', [[<Cmd>lua vim.lsp.buf.hover()<CR>]])
+map('n', 'gi', [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
+map('n', '<C-k>', [[<cmd>lua vim.lsp.buf.signature_help()<CR>]])
+map('n', '<space>wa', [[<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]])
+map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
+map('n', '<space>wl', [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
+map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
+map('n', '<space>rn', [[<cmd>lua vim.lsp.buf.rename()<CR>]])
+map('n', 'gr', [[<cmd>lua vim.lsp.buf.references()<CR>]])
+map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
+map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
+map('n', '[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
+map('n', ']d', [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]])
+map('n', '<space>q', [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]])
 map("n", "gds", [[<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>]])
 map("n", "gws", [[<cmd>lua require"settings.telescope".lsp_workspace_symbols()<CR>]])
-map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
-map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
-map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
 map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
 map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
-map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
-map("n", "<leader>e", [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]]) -- buffer diagnostics only
-map("n", "]c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>]])
-map("n", "[c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>]])
 map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
 map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
--- possibly delete stuff below
-map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>' )
-map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>' )
-map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>' )
-map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>' )
-map('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>' )
-map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>' )
-map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>' )
-map('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>' )
--- up to here of course
+-- map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
+-- map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
+-- map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
+-- map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
+-- map("n", "]c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>]])
+-- map("n", "[c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>]])
 
 -- completion
 map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
@@ -151,7 +158,7 @@ map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
 
--- Nvim-tree 
+-- Nvim-tree
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
 cmd([[let g:nvim_tree_side = 'right']])
@@ -178,7 +185,7 @@ map("n", "<leader>;t", [[:terminal<CR>]])
 cmd([[let g:NERDCreateDefaultMappings = 0]])
 cmd([[let g:NERDSpaceDelims = 1]])
 map("n", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
-
+map("v", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
 
 ----------------------------------
 -- COMMANDS ----------------------
@@ -208,8 +215,6 @@ cmd([[augroup colorset]])
 cmd([[autocmd!]])
 cmd([[autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" } })]])
 cmd([[augroup END]])
-cmd([[set nohlsearch]])
-
 
 ----------------------------------
 -- Language Settings ------------------
@@ -240,10 +245,7 @@ cmd([[au BufNewFile,BufRead *.py
     \| set softtabstop=4
     \| set shiftwidth=4
     \| set textwidth=79
-    \| set expandtab
-    \| set autoindent
-    \| set fileformat=unix]])
-
+    \| set autoindent]])
 
 -- C & C++
 cmd([[augroup ft_c]])
@@ -268,14 +270,13 @@ cmd([[augroup END]])
 -- JSON color highlighting
 cmd([[autocmd FileType json syntax match Comment +\/\/.\+$+]])
 
-
 ----------------------------------
 -- LSP Settings ------------------
 ----------------------------------
---fn.sign_define("LspDiagnosticsSignError", { text = "▬" })
---fn.sign_define("LspDiagnosticsSignWarning", { text = "▬" })
---fn.sign_define("LspDiagnosticsSignInformation", { text = "▬" })
---fn.sign_define("LspDiagnosticsSignHint", { text = "▬" })
+fn.sign_define("LspDiagnosticsSignError", { text = "▬" })
+fn.sign_define("LspDiagnosticsSignWarning", { text = "▬" })
+fn.sign_define("LspDiagnosticsSignInformation", { text = "▬" })
+fn.sign_define("LspDiagnosticsSignHint", { text = "▬" })
 
 cmd([[hi! link LspReferenceText CursorColumn]])
 cmd([[hi! link LspReferenceRead CursorColumn]])
@@ -283,4 +284,7 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 
 cmd([[hi! link LspSagaFinderSelection CursorColumn]])
 cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
+
+-- Colors galore
+require("colorizer").setup()
 
