@@ -19,7 +19,7 @@ return require("packer").startup(function(use)
   use({ "mfussenegger/nvim-dap" })
   use({ "neovim/nvim-lspconfig" })
   use({ "scalameta/nvim-metals" })
-  --use({ "norcalli/nvim-colorizer.lua" })
+  use({ "norcalli/nvim-colorizer.lua" })
   use({
     "nvim-telescope/telescope.nvim",
     requires = {
@@ -39,7 +39,7 @@ return require("packer").startup(function(use)
   use({ "wlangstroth/vim-racket" })
   use({ "Yggdroot/indentLine" })
   use({ "preservim/nerdcommenter" })
-  use({ "ap/vim-css-color" })
+  -- use({ "ap/vim-css-color" })
   use({ "mg979/vim-visual-multi" })
   use({ "lewis6991/gitsigns.nvim" })
   use({ "gruvbox-community/gruvbox" })

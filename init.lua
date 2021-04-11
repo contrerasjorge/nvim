@@ -16,6 +16,10 @@ endif]])
 cmd([[let ayucolor="mirage"]])
 
 
+-- Run your lua good
+map("n", "<leader>lu", ":luafile %<CR>")
+
+
 ----------------------------------
 -- SETUP PLUGINS -----------------
 ----------------------------------
@@ -40,12 +44,10 @@ require("nvim-treesitter.configs").setup({
   highlight = { enable = true },
 })
 
---[[
 require("lspsaga").init_lsp_saga({
   server_filetype_map = { metals = { "sbt", "scala" } },
   code_action_prompt = { virtual_text = false },
 })
-]]
 
 
 ----------------------------------
@@ -138,6 +140,7 @@ map("n", "<leader>fl", [[<cmd>lua require"telescope.builtin".git_files()<CR>]])
 map("n", "<leader>fs", [[<cmd>lua require"telescope.builtin".file_browser()<CR>]])
 map("n", "<leader>fd", [[<cmd>lua require"telescope.builtin".lsp_workspace_diagnostics()<CR>]])
 map("n", "<leader>fp", [[<cmd>lua require"telescope.builtin".oldfiles()<CR>]])
+map("n", "<leader>fn", [[<cmd>lua require"settings.telescope".search_nvim()<CR>]])
 -- 一番の大事な設定
 map("n", "<leader>fc", [[<cmd>lua require"telescope.builtin".colorscheme()<CR>]])
 
@@ -250,15 +253,13 @@ cmd([[au Filetype c setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 cmd([[au Filetype c setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
 cmd([[augroup END]])
 
---[[]]
 cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentWidth": 4, "TabWidth": 4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "BreakBeforeBraces" : "Stroustrup" }]])
---]]
 -- let g:clang_format#auto_format = 1
 -- map to <Leader>cf in C++ code
 cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
 cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
 
--- JS & TS 
+-- JS & TS
 cmd([[augroup ft_typescript]])
 cmd([[au!]])
 cmd([[au Filetype typescript setlocal shiftwidth=2 softtabstop=2 expandtab]])

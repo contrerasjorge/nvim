@@ -16,12 +16,7 @@ local function map(mode, lhs, rhs, opts)
   api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-local function toggle_nums()
-  opt("w", "number", not vim.wo.number)
-end
-
 return {
   opt = opt,
   map = map,
-  toggle_nums = toggle_nums,
 }
