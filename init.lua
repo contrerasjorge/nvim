@@ -5,6 +5,7 @@ local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
 
+
 -- Colors!
 cmd("colorscheme onedark")
 cmd([[let g:gruvbox_contrast_dark = 'hard']])
@@ -14,8 +15,6 @@ cmd([[if exists('+termguicolors')
 endif]])
 cmd([[let ayucolor="mirage"]])
 
--- Run your lua good
-map("n", "<leader>lu", ":luafile %<CR>")
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
@@ -28,7 +27,7 @@ require("settings.telescope").setup()
 require("settings.lsp").setup()
 
 require("nvim-autopairs").setup()
-require("gitsigns").setup()
+-- require("gitsigns").setup()
 
 require("nvim-treesitter.configs").setup({
 	playground = { enable = true },
@@ -41,15 +40,13 @@ require("nvim-treesitter.configs").setup({
 	highlight = { enable = true },
 })
 
-local saga = require 'lspsaga'
-saga.init_lsp_saga({
-  code_action_icon = '💡',
-	server_filetype_map = { metals = { "sbt", "scala" } },
-  code_action_prompt = { virtual_text = false },
-})
-
--- require("lspsaga").init_lsp_saga({
+-- local saga = require 'lspsaga'
+-- saga.init_lsp_saga({
+  -- code_action_icon = '💡',
+	-- server_filetype_map = { metals = { "sbt", "scala" } },
+  -- code_action_prompt = { virtual_text = false },
 -- })
+
 
 ----------------------------------
 -- OPTIONS -----------------------
@@ -57,11 +54,11 @@ saga.init_lsp_saga({
 local indent = 2
 vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
 vim.o.path = vim.o.path .. "**"
+cmd([[:set formatoptions-=cro]])
 
 
 
 cmd([[set nohlsearch]])
--- cmd([[set cursorline]])
 
 -- global
 opt("o", "termguicolors", true)
@@ -91,6 +88,7 @@ opt("b", "softtabstop", indent)
 opt("b", "expandtab", true)
 opt("b", "fileformat", "unix")
 
+
 ----------------------------------
 -- VARIABLES ---------------------
 ----------------------------------
@@ -98,9 +96,6 @@ g["mapleader"] = " "
 g["netrw_gx"] = "<cWORD>"
 
 map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
-
--- nvim-metals
--- g["metals_server_version"] = "0.10.2-SNAPSHOT"
 
 -- LSP
 map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
@@ -163,7 +158,7 @@ map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
 cmd([[let g:nvim_tree_side = 'right']])
 cmd([[let g:nvim_tree_add_trailing = 1]])
---cmd([[let g:nvim_tree_quit_on_open = 1]])
+-- cmd([[let g:nvim_tree_quit_on_open = 1]])
 
 -- Fugitive
 map("n", "<leader>gs", [[:G<CR>]])
@@ -187,9 +182,11 @@ cmd([[let g:NERDSpaceDelims = 1]])
 map("n", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
 map("v", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
 
+
 ----------------------------------
 -- COMMANDS ----------------------
 ----------------------------------
+cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]])
 cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]])
 cmd([[autocmd FileType markdown setlocal textwidth=80]])
 cmd([[autocmd BufEnter *.js call matchadd('ColorColumn', '\%81v', 100)]])
@@ -215,6 +212,7 @@ cmd([[augroup colorset]])
 cmd([[autocmd!]])
 cmd([[autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" } })]])
 cmd([[augroup END]])
+
 
 ----------------------------------
 -- Language Settings ------------------
@@ -269,6 +267,7 @@ cmd([[augroup END]])
 
 -- JSON color highlighting
 cmd([[autocmd FileType json syntax match Comment +\/\/.\+$+]])
+
 
 ----------------------------------
 -- LSP Settings ------------------
