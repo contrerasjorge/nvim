@@ -1,5 +1,6 @@
 return require("packer").startup(function(use)
 	use({ "neovim/nvim-lspconfig" })
+  use({ "nvim-lua/lsp_extensions.nvim" })
 	use({ "glepnir/lspsaga.nvim" })
 	use({ "ckipp01/stylua-nvim" })
 	use({ "sjl/tslime.vim" })

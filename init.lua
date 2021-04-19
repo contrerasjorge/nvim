@@ -15,6 +15,8 @@ cmd([[if exists('+termguicolors')
 endif]])
 cmd([[let ayucolor="mirage"]])
 
+cmd([[set scrolloff=8]])
+
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
