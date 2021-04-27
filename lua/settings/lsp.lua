@@ -1,8 +1,8 @@
 local M = {}
 
 M.setup = function()
-	local shared_diagnostic_settings =
-		vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
+	local shared_diagnostic_settings = 
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 	local lsp_config = require("lspconfig")
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -23,7 +23,6 @@ M.setup = function()
 			"com.github.swagger.akka.javadsl",
 			"akka.stream.javadsl",
 		},
-		--fallbackScalaVersion = "2.13.5"
 	}
 
 	Metals_config.init_options.statusBarProvider = "on"
@@ -31,10 +30,6 @@ M.setup = function()
 	Metals_config.capabilities = capabilities
 
 	local dap = require("dap")
-
-	-- For that they usually provide a `console` option in their |dap-configuration|.
-	-- The supported values are usually called `internalConsole`, `integratedTerminal`
-	-- and `externalTerminal`.
 
 	dap.configurations.scala = {
 		{
@@ -70,13 +65,6 @@ M.setup = function()
 			"-E",
 			"/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/main.lua",
 		},
-		commands = {
-			Format = {
-				function()
-					require("stylua-nvim").format_file()
-				end,
-			},
-		},
 		settings = {
 			Lua = {
 				runtime = {
@@ -107,10 +95,25 @@ M.setup = function()
 	--})
 	--lsp_config.yamlls.setup({})
 	--lsp_config.racket_langserver.setup({})
-	lsp_config.html.setup({})
-	lsp_config.cssls.setup({})
-	lsp_config.pyright.setup({})
-	lsp_config.rust_analyzer.setup({})
+  --
+  lsp_config.html.setup({
+  })
+  lsp_config.cssls.setup({})
+  lsp_config.pyright.setup({})
+  lsp_config.rust_analyzer.setup({})
+
+  -- local servers = { "pyright", "rust_analyzer", "html", "cssls" }
+  -- for _, lsp in ipairs(servers) do
+    -- lsp_config[lsp].setup { 
+        -- capabilities = capabilities;
+        -- on_attach = on_attach;
+        -- -- init_options = {
+        -- --     onlyAnalyzeProjectsWithOpenFiles = true,
+        -- --     suggestFromUnimportedLibraries = false,
+        -- --     closingLabels = true,
+        -- -- };
+    -- }
+  -- end
 
 	lsp_config.tsserver.setup({
 		on_attach = function(client, bufnr)
@@ -137,84 +140,162 @@ M.setup = function()
 		end,
 	})
 
-	--vim.lsp.set_log_level('trace')
+  local eslint = {
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"},
+    lintIgnoreExitCode = true,
+    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatStdin = true
+  }
 
-	local filetypes = {
-		javascript = "eslint",
-		typescript = "eslint",
-		typescriptreact = "eslint",
-		python = "flake8",
-	}
+  local function eslint_config_exists()
+    local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
 
-	local linters = {
-		eslint = {
-			sourceName = "eslint",
-			command = "eslint_d",
-			rootPatterns = { ".eslintrc.json", "package.json" },
-			debounce = 100,
-			args = { "--stdin", "--stdin-filename", "%filepath", "--format", "json" },
-			parseJson = {
-				errorsRoot = "[0].messages",
-				line = "line",
-				column = "column",
-				endLine = "endLine",
-				endColumn = "endColumn",
-				message = "${message} [${ruleId}]",
-				security = "severity",
-			},
-			securities = { [2] = "error", [1] = "warning" },
-		},
-		flake8 = {
-			comman = "flake8",
-			debounce = 100,
-			args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
-			offsetLine = 0,
-			offsetColumn = 0,
-			sourceName = "flake8",
-			formatLines = 1,
-			formatPattern = {
-				"(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
-				{
-					line = 1,
-					column = 2,
-					security = 3,
-					message = 4,
-				},
-			},
-			securities = {
-				["W"] = "warning",
-				["E"] = "error",
-				["F"] = "error",
-				["C"] = "error",
-				["N"] = "error",
-			},
-		},
-	}
+    if not vim.tbl_isempty(eslintrc) then
+      return true
+    end
 
-	local formatters = {
-		prettier = { command = "prettier", args = { "--stdin-filepath", "%filepath" } },
-		black = {
-			command = "black",
-			args = { "--quiet", "-" },
-		},
-	}
+    if vim.fn.filereadable("package.json") then
+      if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+        return true
+      end
+    end
 
-	local formatFiletypes = {
-		javascript = "prettier",
-		typescript = "prettier",
-		typescriptreact = "prettier",
-		python = "black",
-	}
+    return false
+  end
 
-	lsp_config.diagnosticls.setup({
-		filetypes = vim.tbl_keys(filetypes),
-		init_options = {
-			filetypes = filetypes,
-			linters = linters,
-			formatters = formatters,
-			formatFiletypes = formatFiletypes,
-		},
-	})
+  lsp_config.efm.setup {
+    on_attach = function(client)
+      client.resolved_capabilities.document_formatting = true
+      client.resolved_capabilities.goto_definition = false
+      set_lsp_config(client)
+      end,
+      root_dir = function()
+        if not eslint_config_exists() then
+          return nil
+            end
+            return vim.fn.getcwd()
+            end,
+            settings = {
+              languages = {
+                javascript = {eslint},
+                javascriptreact = {eslint},
+                ["javascript.jsx"] = {eslint},
+                typescript = {eslint},
+                ["typescript.tsx"] = {eslint},
+                typescriptreact = {eslint},
+                lua = {
+                  {formatCommand = "lua-format -i", formatStdin = true}
+                }
+              }
+            },
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "javascript.jsx",
+              "typescript",
+              "typescript.tsx",
+              "typescriptreact"
+            },
+  }
+
+  -- require "lspconfig".efm.setup {
+    -- init_options = {documentFormatting = true},
+    -- settings = {
+      -- rootMarkers = {".git/"},
+      -- languages = {
+        -- lua = {
+          -- {formatCommand = "lua-format -i", formatStdin = true}
+        -- },
+        -- python = {
+          -- {lintCommand = "flake8 --stdin-display-name ${INPUT} -", lintStdin = true, lintFormats = "%f:%l:%c: %m"},
+          -- {formatCommand = "black --quiet -", formatStdin = true}
+        -- },
+        -- javascript = {
+          -- {lintCommand = "eslint -f visualstudio --stdin --stdin-filename ${INPUT}", lintStdin = true},
+          -- {formatCommand = "prettier --stdin-filepath"}
+        -- }
+      -- }
+    -- }
+  -- }
+
+  -- local filetypes = {
+    -- javascript = "eslint",
+    -- typescript = "eslint",
+    -- typescriptreact = "eslint",
+    -- python = "flake8",
+  -- }
+
+  -- local linters = {
+    -- eslint = {
+      -- sourceName = "eslint",
+      -- command = "eslint_d",
+      -- rootPatterns = { ".eslintrc.json", "package.json" },
+      -- debounce = 100,
+      -- args = { "--stdin", "--stdin-filename", "%filepath", "--format", "json" },
+      -- parseJson = {
+        -- errorsRoot = "[0].messages",
+        -- line = "line",
+        -- column = "column",
+        -- endLine = "endLine",
+        -- endColumn = "endColumn",
+        -- message = "${message} [${ruleId}]",
+        -- security = "severity",
+      -- },
+      -- securities = { [2] = "error", [1] = "warning" },
+    -- },
+    -- flake8 = {
+      -- comman = "flake8",
+      -- debounce = 100,
+      -- args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
+      -- offsetLine = 0,
+      -- offsetColumn = 0,
+      -- sourceName = "flake8",
+      -- formatLines = 1,
+      -- formatPattern = {
+        -- "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
+        -- {
+          -- line = 1,
+          -- column = 2,
+          -- security = 3,
+          -- message = 4,
+        -- },
+      -- },
+      -- securities = {
+        -- ["W"] = "warning",
+        -- ["E"] = "error",
+        -- ["F"] = "error",
+        -- ["C"] = "error",
+        -- ["N"] = "error",
+      -- },
+    -- },
+  -- }
+
+  -- local formatters = {
+    -- prettier = { command = "prettier", args = { "--stdin-filepath", "%filepath" } },
+    -- black = {
+      -- command = "black",
+      -- args = { "--quiet", "-" },
+    -- },
+  -- }
+
+  -- local formatFiletypes = {
+    -- javascript = "prettier",
+    -- typescript = "prettier",
+    -- typescriptreact = "prettier",
+    -- python = "black",
+  -- }
+
+  -- lsp_config.diagnosticls.setup({
+    -- filetypes = vim.tbl_keys(filetypes),
+    -- init_options = {
+      -- filetypes = filetypes,
+      -- linters = linters,
+      -- formatters = formatters,
+      -- formatFiletypes = formatFiletypes,
+    -- },
+  -- })
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

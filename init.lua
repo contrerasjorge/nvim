@@ -4,6 +4,10 @@ local g = vim.g
 local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
+cmd([[packadd packer.nvim]])
+require("plugins")
+
+--require('packer').startup(...)
 
 
 -- Colors!
@@ -121,7 +125,7 @@ map("n", "gws", [[<cmd>lua require"settings.telescope".lsp_workspace_symbols()<C
 map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
 map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
-map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
 -- map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
 -- map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
@@ -134,6 +138,12 @@ map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
 map("i", "<Tab>", [[pumvisible() ? "<C-n>" : "<Tab>"]], { expr = true })
 map("i", "<CR>", [[compe#confirm("<CR>")]], { expr = true })
+
+map("i", "<C-space>", [[compe#complete()]], { silent = true, expr = true })
+map("i", "<C-e>", [[compe#close("<C-e>")]], { silent = true, expr = true })
+map("i", "<C-f>", [[compe#scroll({ "delta": +4 })]], { silent = true, expr = true })
+map("i", "<C-d>", [[compe#scroll({ "delta": -4 })]], { silent = true, expr = true })
+
 
 -- telescope
 map("n", "<leader>ff", [[<cmd>lua require"telescope.builtin".find_files()<CR>]])
@@ -240,12 +250,14 @@ cmd([[augroup END]])
 cmd([[au BufEnter,BufNewFile,BufRead *.rkt set filetype=racket]])
 
 -- Python
-cmd([[au BufNewFile,BufRead *.py
-    \| set tabstop=4
-    \| set softtabstop=4
-    \| set shiftwidth=4
-    \| set textwidth=79
-    \| set autoindent]])
+-- cmd([[au BufNewFile,BufRead *.py
+    -- \| set tabstop=4
+    -- \| set softtabstop=4
+    -- \| set shiftwidth=4
+    -- \| set textwidth=79
+    -- \| set autoindent]])
+-- autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+cmd([[au FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 
 -- C & C++
 cmd([[augroup ft_c]])
