@@ -4,10 +4,8 @@ local g = vim.g
 local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
-cmd([[packadd packer.nvim]])
-require("plugins")
 
---require('packer').startup(...)
+cmd([[packadd packer.nvim]])
 
 
 -- Colors!
@@ -25,7 +23,6 @@ cmd([[set scrolloff=8]])
 ----------------------------------
 -- SETUP PLUGINS -----------------
 ----------------------------------
-cmd([[packadd packer.nvim]])
 require("plugins")
 require("settings.functions")
 require("settings.compe").setup()
@@ -33,7 +30,6 @@ require("settings.telescope").setup()
 require("settings.lsp").setup()
 
 require("nvim-autopairs").setup()
--- require("gitsigns").setup()
 
 require("nvim-treesitter.configs").setup({
 	playground = { enable = true },
@@ -46,12 +42,12 @@ require("nvim-treesitter.configs").setup({
 	highlight = { enable = true },
 })
 
--- local saga = require 'lspsaga'
--- saga.init_lsp_saga({
-  -- code_action_icon = '💡',
-	-- server_filetype_map = { metals = { "sbt", "scala" } },
-  -- code_action_prompt = { virtual_text = false },
--- })
+local saga = require 'lspsaga'
+saga.init_lsp_saga({
+  code_action_icon = '💡',
+  server_filetype_map = { metals = { "sbt", "scala" } },
+  code_action_prompt = { virtual_text = false },
+})
 
 
 ----------------------------------
@@ -77,10 +73,13 @@ opt("o", "wildignore", ".git,*/node_modules/*,*/target/*,.metals,.bloop")
 opt("o", "ignorecase", true)
 opt("o", "smartcase", true)
 opt("o", "clipboard", "unnamed")
-opt("o", "completeopt", "menu,menuone,noselect")
+opt("o", "completeopt", "menuone,noinsert,noselect")
 opt("o", "cursorline", true)
 --opt("o", "nohlsearch", true)
 --opt("o", "colorcolumn", "80")
+vim.api.nvim_command("set colorcolumn=80")
+
+
 
 -- window-scoped
 opt("w", "wrap", false)
@@ -106,7 +105,7 @@ map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 -- LSP
 map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
 map('n', 'gd', [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
-map('n', 'K', [[<Cmd>lua vim.lsp.buf.hover()<CR>]])
+-- map('n', 'K', [[<Cmd>lua vim.lsp.buf.hover()<CR>]])
 map('n', 'gi', [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
 map('n', '<C-k>', [[<cmd>lua vim.lsp.buf.signature_help()<CR>]])
 map('n', '<space>wa', [[<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]])
@@ -127,7 +126,7 @@ map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
--- map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
+map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
 -- map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
 -- map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
 -- map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
@@ -199,7 +198,6 @@ map("v", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
 -- COMMANDS ----------------------
 ----------------------------------
 cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]])
-cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]])
 cmd([[autocmd FileType markdown setlocal textwidth=80]])
 cmd([[autocmd BufEnter *.js call matchadd('ColorColumn', '\%81v', 100)]])
 cmd([[autocmd BufReadPost,BufNewFile *.md,*.txt,COMMIT_EDITMSG set wrap linebreak nolist spell spelllang=en_us complete+=kspell]])
@@ -250,13 +248,6 @@ cmd([[augroup END]])
 cmd([[au BufEnter,BufNewFile,BufRead *.rkt set filetype=racket]])
 
 -- Python
--- cmd([[au BufNewFile,BufRead *.py
-    -- \| set tabstop=4
-    -- \| set softtabstop=4
-    -- \| set shiftwidth=4
-    -- \| set textwidth=79
-    -- \| set autoindent]])
--- autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 cmd([[au FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 
 -- C & C++
