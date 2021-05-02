@@ -56,8 +56,6 @@ saga.init_lsp_saga({
 local indent = 2
 vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
 vim.o.path = vim.o.path .. "**"
-cmd([[:set formatoptions-=cro]])
-
 
 
 cmd([[set nohlsearch]])
@@ -102,6 +100,11 @@ g["netrw_gx"] = "<cWORD>"
 
 map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 
+-- Neoformat
+map("n", "<leader>nf", [[:Neoformat<CR>]])
+-- "nnoremap <leader>nf :Neoformat<CR>
+
+
 -- LSP
 map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
 map('n', 'gd', [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
@@ -112,7 +115,7 @@ map('n', '<space>wa', [[<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]])
 map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
 map('n', '<space>wl', [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
 map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
-map('n', '<space>rn', [[<cmd>lua vim.lsp.buf.rename()<CR>]])
+-- map('n', '<space>rn', [[<cmd>lua vim.lsp.buf.rename()<CR>]])
 map('n', 'gr', [[<cmd>lua vim.lsp.buf.references()<CR>]])
 map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
@@ -127,9 +130,9 @@ map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
 map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
--- map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
--- map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
--- map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
+map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
+map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
+map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
 -- map("n", "]c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>]])
 -- map("n", "[c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>]])
 

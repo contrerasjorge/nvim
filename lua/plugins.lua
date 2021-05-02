@@ -1,4 +1,5 @@
 return require("packer").startup(function(use)
+  use({ 'sbdchd/neoformat' })
 	use({ "neovim/nvim-lspconfig" })
   use({ "nvim-lua/lsp_extensions.nvim" })
 	use({ "glepnir/lspsaga.nvim" })
