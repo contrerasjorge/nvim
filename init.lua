@@ -261,6 +261,13 @@ cmd([[au Filetype c setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 cmd([[au Filetype c setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
 cmd([[augroup END]])
 
+cmd([[augroup ft_cpp]])
+cmd([[au!]])
+cmd([[au BufNewFile,BufRead *.cpp setlocal filetype=cpp]])
+cmd([[au Filetype cpp setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
+cmd([[au Filetype cpp setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
+cmd([[augroup END]])
+
 cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentWidth": 4, "TabWidth": 4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "BreakBeforeBraces" : "Stroustrup" }]])
 -- let g:clang_format#auto_format = 1
 -- map to <Leader>cf in C++ code
