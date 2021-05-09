@@ -268,11 +268,15 @@ cmd([[au Filetype cpp setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 cmd([[au Filetype cpp setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
 cmd([[augroup END]])
 
-cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentWidth": 4, "TabWidth": 4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "BreakBeforeBraces" : "Stroustrup" }]])
+-- cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentWidth": 4, "TabWidth": 4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "BreakBeforeBraces" : "Stroustrup" }]])
 -- let g:clang_format#auto_format = 1
 -- map to <Leader>cf in C++ code
-cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
-cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
+-- cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
+-- cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
+
+cmd([[let g:neoformat_cpp_clangformat = { 'exe': 'clang-format', 'args': ['--style="{ AccessModifierOffset: -4, IndentWidth: 4, TabWidth: 4, AllowShortIfStatementsOnASingleLine : true, AlwaysBreakTemplateDeclarations: true, BreakBeforeBraces: Stroustrup }"'] }]])
+cmd([[let g:neoformat_enabled_cpp = ['clangformat'] ]])
+cmd([[let g:neoformat_enabled_c = ['clangformat'] ]])
 
 -- JS & TS
 cmd([[augroup ft_typescript]])
