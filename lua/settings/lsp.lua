@@ -96,6 +96,7 @@ M.setup = function()
 	--lsp_config.yamlls.setup({})
 	--lsp_config.racket_langserver.setup({})
   lsp_config.elmls.setup{}
+  lsp_config.hls.setup{}
   lsp_config.html.setup({})
   lsp_config.cssls.setup({})
   lsp_config.pyright.setup({})
