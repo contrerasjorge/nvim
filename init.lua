@@ -159,6 +159,8 @@ map("n", "<leader>fp", [[<cmd>lua require"telescope.builtin".oldfiles()<CR>]])
 map("n", "<leader>fn", [[<cmd>lua require"settings.telescope".search_nvim()<CR>]])
 -- 一番の大事な設定
 map("n", "<leader>fc", [[<cmd>lua require"telescope.builtin".colorscheme()<CR>]])
+map("n", "<leader>mc", [[<cmd>lua require("telescope").extensions.metals.commands()<CR>]])
+
 
 -- nvim-dap
 map("n", "<leader>dc", [[<cmd>lua require"dap".continue()<CR>]])
@@ -237,6 +239,7 @@ cmd([[au!]])
 cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal formatoptions+=roq]])
 cmd([[au BufEnter,BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4 nolist]])
 cmd([[au BufEnter,BufNewFile,BufRead *.tmpl setlocal filetype=html]])
+cmd([[au BufEnter,BufNewFile,BufRead *.jet setlocal filetype=html]])
 cmd([[augroup END]])
 cmd([[autocmd BufWritePre *.go lua Goimports(1000)]])
 
