@@ -15,6 +15,7 @@ M.setup = function()
 	})
 
 	Metals_config = require("metals").bare_config
+
 	Metals_config.settings = {
 		showImplicitArguments = true,
 		showInferredType = true,
@@ -31,26 +32,33 @@ M.setup = function()
 
 	local dap = require("dap")
 
-	dap.configurations.scala = {
-		{
-			type = "scala",
-			request = "launch",
-			name = "Run",
-			metalsRunType = "run",
-		},
-		{
-			type = "scala",
-			request = "launch",
-			name = "Test File",
-			metalsRunType = "testFile",
-		},
-		{
-			type = "scala",
-			request = "launch",
-			name = "Test Target",
-			metalsRunType = "testTarget",
-		},
-	}
+    dap.configurations.scala = {
+      {
+        type = "scala",
+        request = "launch",
+        name = "Run",
+        metals = {
+          runType = "run",
+          args = { "firstArg", "secondArg", "thirdArg" },
+        },
+      },
+      {
+        type = "scala",
+        request = "launch",
+        name = "Test File",
+        metals = {
+          runType = "testFile",
+        },
+      },
+      {
+        type = "scala",
+        request = "launch",
+        name = "Test Target",
+        metals = {
+          runType = "testTarget",
+        },
+      },
+    }
 
 	Metals_config.on_attach = function(client, bufnr)
 		require("metals").setup_dap()

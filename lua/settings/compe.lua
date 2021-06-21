@@ -21,18 +21,6 @@ M.setup = function()
 			tags = true,
 			snippets_nvim = true,
 		},
-
-			--source = {
-			--path = true,
-			--buffer = true,
-			--vsnip = {
-			--filetypes = { "scala", "html", "javascript", "lua", "java", "go" },
-			--},
-			--nvim_lsp = {
-			--priority = 1000,
-			--filetypes = { "scala", "html", "javascript", "lua", "java", "go" },
-			--},
-			--},
 	})
 end
 

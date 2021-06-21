@@ -5,24 +5,19 @@ local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
 
-cmd([[packadd packer.nvim]])
 
-
--- Colors!
-cmd("colorscheme onedark")
-cmd([[let g:gruvbox_contrast_dark = 'hard']])
-cmd([[if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif]])
-cmd([[let ayucolor="mirage"]])
-
-cmd([[set scrolloff=8]])
-
+-- Guess what this does
+RELOAD = function(p)
+  package.loaded[p] = nil
+  return require(p)
+end
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
 ----------------------------------
+
+cmd([[packadd packer.nvim]])
+
 require("plugins")
 require("settings.functions")
 require("settings.compe").setup()
@@ -53,12 +48,14 @@ saga.init_lsp_saga({
 ----------------------------------
 -- OPTIONS -----------------------
 ----------------------------------
+
 local indent = 2
 vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
 vim.o.path = vim.o.path .. "**"
 
 
 cmd([[set nohlsearch]])
+cmd([[set scrolloff=8]])
 
 -- global
 opt("o", "termguicolors", true)
@@ -77,8 +74,6 @@ opt("o", "cursorline", true)
 --opt("o", "colorcolumn", "80")
 vim.api.nvim_command("set colorcolumn=80")
 
-
-
 -- window-scoped
 opt("w", "wrap", false)
 opt("w", "cursorline", true)
@@ -91,31 +86,28 @@ opt("b", "softtabstop", indent)
 opt("b", "expandtab", true)
 opt("b", "fileformat", "unix")
 
-
 ----------------------------------
 -- VARIABLES ---------------------
 ----------------------------------
 g["mapleader"] = " "
 g["netrw_gx"] = "<cWORD>"
 
+-- Numbers!!!
+map("n", "<leader>n/", [[<cmd>lua RELOAD("settings.functions").toggle_nums()<CR>]])
 map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 
 -- Neoformat
 map("n", "<leader>nf", [[:Neoformat<CR>]])
--- "nnoremap <leader>nf :Neoformat<CR>
-
 
 -- LSP
 map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
 map('n', 'gd', [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
--- map('n', 'K', [[<Cmd>lua vim.lsp.buf.hover()<CR>]])
 map('n', 'gi', [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
 map('n', '<C-k>', [[<cmd>lua vim.lsp.buf.signature_help()<CR>]])
 map('n', '<space>wa', [[<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]])
 map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
 map('n', '<space>wl', [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
 map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
--- map('n', '<space>rn', [[<cmd>lua vim.lsp.buf.rename()<CR>]])
 map('n', 'gr', [[<cmd>lua vim.lsp.buf.references()<CR>]])
 map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
@@ -165,6 +157,7 @@ map("n", "<leader>mc", [[<cmd>lua require("telescope").extensions.metals.command
 -- nvim-dap
 map("n", "<leader>dc", [[<cmd>lua require"dap".continue()<CR>]])
 map("n", "<leader>dr", [[<cmd>lua require"dap".repl.toggle()<CR>]])
+map("n", "<leader>ds", [[<cmd>lua require"dap.ui.variables".scopes()<CR>]])
 map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
@@ -174,7 +167,7 @@ map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
 cmd([[let g:nvim_tree_side = 'right']])
 cmd([[let g:nvim_tree_add_trailing = 1]])
--- cmd([[let g:nvim_tree_quit_on_open = 1]])
+cmd([[let g:nvim_tree_quit_on_open = 1]])
 
 -- Fugitive
 map("n", "<leader>gs", [[:G<CR>]])
@@ -306,6 +299,18 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 cmd([[hi! link LspSagaFinderSelection CursorColumn]])
 cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
 
+----------------------------------
+-- Color Settings ------------------
+----------------------------------
+
+-- Colors!
+cmd("colorscheme onedark")
+cmd([[let g:gruvbox_contrast_dark = 'hard']])
+cmd([[if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif]])
+cmd([[let ayucolor="mirage"]])
+
 -- Colors galore
 require("colorizer").setup()
-
