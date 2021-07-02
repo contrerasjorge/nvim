@@ -4,13 +4,8 @@ local g = vim.g
 local f = require("settings.functions")
 local map = f.map
 local opt = f.opt
+local global_opt = vim.opt_global
 
-
--- Guess what this does
-RELOAD = function(p)
-  package.loaded[p] = nil
-  return require(p)
-end
 
 ----------------------------------
 -- SETUP PLUGINS -----------------
@@ -19,6 +14,7 @@ end
 cmd([[packadd packer.nvim]])
 
 require("plugins")
+require("settings.globals")
 require("settings.functions")
 require("settings.compe").setup()
 require("settings.telescope").setup()
@@ -26,16 +22,6 @@ require("settings.lsp").setup()
 
 require("nvim-autopairs").setup()
 
--- require("nvim-treesitter.configs").setup({
-	-- playground = { enable = true },
-	-- query_linter = {
-		-- enable = true,
-		-- use_virtual_text = true,
-		-- lint_events = { "BufWrite", "CursorHold" },
-	-- },
-	-- ensure_installed = "maintained",
-	-- highlight = { enable = true },
--- })
 
 local saga = require 'lspsaga'
 saga.init_lsp_saga({
@@ -50,41 +36,39 @@ saga.init_lsp_saga({
 ----------------------------------
 
 local indent = 2
-vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
-vim.o.path = vim.o.path .. "**"
-
 
 cmd([[set nohlsearch]])
 cmd([[set scrolloff=8]])
 
 -- global
-opt("o", "termguicolors", true)
-opt("o", "hidden", true)
-opt("o", "showtabline", 1)
-opt("o", "updatetime", 300)
-opt("o", "showmatch", true)
-opt("o", "laststatus", 2)
-opt("o", "wildignore", ".git,*/node_modules/*,*/target/*,.metals,.bloop")
-opt("o", "ignorecase", true)
-opt("o", "smartcase", true)
-opt("o", "clipboard", "unnamed")
-opt("o", "completeopt", "menuone,noinsert,noselect")
-opt("o", "cursorline", true)
---opt("o", "nohlsearch", true)
---opt("o", "colorcolumn", "80")
+global_opt.shortmess:remove("F"):append("c")
+global_opt.path:append("**")
+global_opt.termguicolors = true
+global_opt.hidden = true
+global_opt.showtabline = 1
+global_opt.updatetime = 300
+global_opt.showmatch = true
+global_opt.laststatus = 2
+global_opt.wildignore = { ".git", "*/node_modules/*", "*/target/*", ".metals", ".bloop", ".ammonite" }
+global_opt.ignorecase = true
+global_opt.smartcase = true
+global_opt.clipboard = "unnamed"
+global_opt.completeopt = { "menu", "menuone", "noselect" }
+
 vim.api.nvim_command("set colorcolumn=80")
 
 -- window-scoped
-opt("w", "wrap", false)
-opt("w", "cursorline", true)
-opt("w", "signcolumn", "yes")
+opt.wrap = false
+opt.cursorline = true
+opt.signcolumn = "yes"
 
 -- buffer-scoped
-opt("b", "tabstop", indent)
-opt("b", "shiftwidth", indent)
-opt("b", "softtabstop", indent)
-opt("b", "expandtab", true)
-opt("b", "fileformat", "unix")
+opt.tabstop = indent
+opt.shiftwidth = indent
+opt.softtabstop = indent
+opt.expandtab = true
+opt.fileformat = "unix"
+
 
 ----------------------------------
 -- VARIABLES ---------------------
@@ -93,8 +77,8 @@ g["mapleader"] = " "
 g["netrw_gx"] = "<cWORD>"
 
 -- Numbers!!!
-map("n", "<leader>n/", [[<cmd>lua RELOAD("settings.functions").toggle_nums()<CR>]])
-map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
+map("n", "<leader>n", [[<cmd>lua RELOAD("settings.functions").toggle_nums()<CR>]])
+map("n", "<leader>n/", [[:set relativenumber! nu!<CR>]])
 
 -- Neoformat
 map("n", "<leader>nf", [[:Neoformat<CR>]])
@@ -206,19 +190,12 @@ cmd([[let g:tslime_ensure_trailing_newlines = 1]]) -- Always send newline
 cmd([[let g:tslime_normal_mapping = '<leader>sl']])
 cmd([[let g:tslime_visual_mapping = '<leader>sl']])
 
--- LSP
+-- LSP (i.e. Scala)
 cmd([[augroup lsp]])
 cmd([[autocmd!]])
 cmd([[autocmd FileType scala setlocal omnifunc=v:lua.vim.lsp.omnifunc]])
 cmd([[autocmd FileType scala,sbt lua require("metals").initialize_or_attach(Metals_config)]])
 cmd([[augroup end]])
-
--- Needed to esnure float background doesn't get odd highlighting
--- https://github.com/joshdick/onedark.vim#onedarkset_highlight
-cmd([[augroup colorset]])
-cmd([[autocmd!]])
-cmd([[autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" } })]])
-cmd([[augroup END]])
 
 
 ----------------------------------
