@@ -26,16 +26,16 @@ require("settings.lsp").setup()
 
 require("nvim-autopairs").setup()
 
-require("nvim-treesitter.configs").setup({
-	playground = { enable = true },
-	query_linter = {
-		enable = true,
-		use_virtual_text = true,
-		lint_events = { "BufWrite", "CursorHold" },
-	},
-	ensure_installed = "maintained",
-	highlight = { enable = true },
-})
+-- require("nvim-treesitter.configs").setup({
+	-- playground = { enable = true },
+	-- query_linter = {
+		-- enable = true,
+		-- use_virtual_text = true,
+		-- lint_events = { "BufWrite", "CursorHold" },
+	-- },
+	-- ensure_installed = "maintained",
+	-- highlight = { enable = true },
+-- })
 
 local saga = require 'lspsaga'
 saga.init_lsp_saga({
@@ -151,7 +151,6 @@ map("n", "<leader>fp", [[<cmd>lua require"telescope.builtin".oldfiles()<CR>]])
 map("n", "<leader>fn", [[<cmd>lua require"settings.telescope".search_nvim()<CR>]])
 -- 一番の大事な設定
 map("n", "<leader>fc", [[<cmd>lua require"telescope.builtin".colorscheme()<CR>]])
-map("n", "<leader>mc", [[<cmd>lua require("telescope").extensions.metals.commands()<CR>]])
 
 
 -- nvim-dap
@@ -304,7 +303,7 @@ cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
 ----------------------------------
 
 -- Colors!
-cmd("colorscheme onedark")
+cmd("colorscheme nightfly")
 cmd([[let g:gruvbox_contrast_dark = 'hard']])
 cmd([[if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"

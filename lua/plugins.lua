@@ -16,7 +16,7 @@ return require("packer").startup(function(use)
 	})
 	use({ "kevinhwang91/nvim-bqf" })
 	use({ "kyazdani42/nvim-web-devicons" })
-	use({ "mfussenegger/nvim-dap" })
+	use { "mfussenegger/nvim-dap" }
 	use({ "scalameta/nvim-metals" })
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -57,6 +57,7 @@ return require("packer").startup(function(use)
   -- Colors!
 	use({ "joshdick/onedark.vim" })
 	use({ "ayu-theme/ayu-vim" })
+  use "bluz71/vim-nightfly-guicolors"
 	use({ "gruvbox-community/gruvbox" })
 	use({ "norcalli/nvim-colorizer.lua" })
 end)
