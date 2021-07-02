@@ -1,13 +1,5 @@
 local api = vim.api
 
-local function opt(scope, key, value)
-	local scopes = { o = vim.o, b = vim.bo, w = vim.wo }
-	scopes[scope][key] = value
-	if scope ~= "o" then
-		scopes["o"][key] = value
-	end
-end
-
 local function toggle_nums()
   vim.wo.number = not vim.wo.number
 end
@@ -21,7 +13,6 @@ local function map(mode, lhs, rhs, opts)
 end
 
 return {
-	opt = opt,
   map = map,
   toggle_nums = toggle_nums,
 }

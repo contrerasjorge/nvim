@@ -3,7 +3,7 @@ local fn = vim.fn
 local g = vim.g
 local f = require("settings.functions")
 local map = f.map
-local opt = f.opt
+local opt = vim.opt
 local global_opt = vim.opt_global
 
 
@@ -77,8 +77,8 @@ g["mapleader"] = " "
 g["netrw_gx"] = "<cWORD>"
 
 -- Numbers!!!
-map("n", "<leader>n", [[<cmd>lua RELOAD("settings.functions").toggle_nums()<CR>]])
-map("n", "<leader>n/", [[:set relativenumber! nu!<CR>]])
+map("n", "<leader>n/", [[<cmd>lua RELOAD("settings.functions").toggle_nums()<CR>]])
+map("n", "<leader>n", [[:set relativenumber! nu!<CR>]])
 
 -- Neoformat
 map("n", "<leader>nf", [[:Neoformat<CR>]])
