@@ -280,6 +280,10 @@ cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
 ----------------------------------
 
 -- Colors!
+require("onedark").setup({
+  commentStyle = "italic",
+})
+
 cmd("colorscheme nightfly")
 cmd([[let g:gruvbox_contrast_dark = 'hard']])
 cmd([[if exists('+termguicolors')
