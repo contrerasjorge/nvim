@@ -2,6 +2,7 @@ return require("packer").startup(function(use)
     use({'kubejm/jest.nvim'})
     use({'sbdchd/neoformat'})
     use({"neovim/nvim-lspconfig"})
+    use 'simrat39/rust-tools.nvim'
     use({"nvim-lua/lsp_extensions.nvim"})
     use({"glepnir/lspsaga.nvim"})
     use({"sjl/tslime.vim"})

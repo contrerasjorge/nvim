@@ -109,7 +109,7 @@ M.setup = function()
   lsp_config.html.setup({})
   lsp_config.cssls.setup({})
   lsp_config.pyright.setup({})
-  lsp_config.rust_analyzer.setup({})
+  -- lsp_config.rust_analyzer.setup({})
 
   lsp_config.tsserver.setup({
     on_attach = function(client, bufnr)

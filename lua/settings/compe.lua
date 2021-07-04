@@ -11,8 +11,11 @@ M.setup = function()
 		source_timeout = 200,
 		incomplete_delay = 400,
 		alow_prefix_unmatch = false,
+    documentation = true,
 
 		source = {
+      path = true,
+      buffer = true,
 			calc = true,
 			vsnip = true,
 			nvim_lsp = true,
