@@ -135,6 +135,7 @@ map("n", "<leader>fp", [[<cmd>lua require"telescope.builtin".oldfiles()<CR>]])
 map("n", "<leader>fn", [[<cmd>lua require"settings.telescope".search_nvim()<CR>]])
 -- 一番の大事な設定
 map("n", "<leader>fc", [[<cmd>lua require"telescope.builtin".colorscheme()<CR>]])
+map("n", "<leader>fm", [[<cmd>lua require("telescope").extensions.metals.commands()<CR>]])
 
 
 -- nvim-dap
@@ -357,7 +358,7 @@ require("onedark").setup({
   commentStyle = "italic",
 })
 
-cmd("colorscheme nightfly")
+-- cmd("colorscheme nightfly")
 cmd([[let g:gruvbox_contrast_dark = 'hard']])
 cmd([[if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"

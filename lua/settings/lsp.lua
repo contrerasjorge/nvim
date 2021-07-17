@@ -91,6 +91,8 @@ M.setup = function()
     },
   })
 
+  lsp_config.ocamllsp.setup{}
+
   lsp_config.dockerls.setup({})
   lsp_config.jsonls.setup({
     commands = {
@@ -116,7 +118,7 @@ M.setup = function()
       require("nvim-lsp-ts-utils").setup({})
 
       -- no default maps, so you may want to define some here
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", { silent = true })
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganizeSync<CR>", { silent = true })
       vim.api.nvim_buf_set_keymap(bufnr, "n", "qq", ":TSLspFixCurrent<CR>", { silent = true })
       vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", { silent = true })
       vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", { silent = true })
