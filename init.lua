@@ -123,6 +123,11 @@ map("i", "<C-f>", [[compe#scroll({ "delta": +4 })]], { silent = true, expr = tru
 map("i", "<C-d>", [[compe#scroll({ "delta": -4 })]], { silent = true, expr = true })
 
 
+-- REST
+map("n", "<leader>re", [[<Plug>RestNvim]])
+map("n", "<leader>rp", [[<Plug>RestNvimPreview]])
+
+
 -- telescope
 map("n", "<leader>ff", [[<cmd>lua require"telescope.builtin".find_files()<CR>]])
 map("n", "<leader>fg", [[<cmd>lua require"telescope.builtin".live_grep()<CR>]])

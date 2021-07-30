@@ -1,4 +1,12 @@
 return require("packer").startup(function(use)
+    use {
+      'NTBBloodbath/rest.nvim',
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+        require('rest-nvim').setup()
+      end,
+      event = 'BufWinEnter',
+    }
     use({'kubejm/jest.nvim'})
     use({'sbdchd/neoformat'})
     use({"neovim/nvim-lspconfig"})
