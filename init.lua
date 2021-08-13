@@ -177,8 +177,8 @@ map("n", "<leader>;t", [[:terminal<CR>]])
 
 cmd([[let g:NERDCreateDefaultMappings = 0]])
 cmd([[let g:NERDSpaceDelims = 1]])
-map("n", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
-map("v", "<leader>cc", [[:call NERDComment(0,"toggle")<CR>]])
+map("n", "<leader>cc", [[:call nerdcommenter#Comment(0,"toggle")<CR>]])
+map("v", "<leader>cc", [[:call nerdcommenter#Comment(0,"toggle")<CR>]])
 
 
 ----------------------------------
