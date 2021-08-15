@@ -42,11 +42,15 @@ return require("packer").startup(function(use)
     use({"wlangstroth/vim-racket"})
     use({"preservim/nerdcommenter"})
     use({"mg979/vim-visual-multi"})
-    use({
-        'lewis6991/gitsigns.nvim',
-        requires = {'nvim-lua/plenary.nvim'},
-        config = function() require('gitsigns').setup() end
-    })
+    use {
+      'lewis6991/gitsigns.nvim',
+      requires = {
+        'nvim-lua/plenary.nvim'
+      },
+      config = function()
+        require('gitsigns').setup()
+      end
+    }
     use({"kyazdani42/nvim-tree.lua"})
     -- use({"rhysd/vim-clang-format"})
 
