@@ -103,6 +103,7 @@ M.setup = function()
       },
     },
   })
+  lsp_config.tailwindcss.setup{}
   lsp_config.yamlls.setup({})
   lsp_config.racket_langserver.setup({})
   lsp_config.elmls.setup{}
