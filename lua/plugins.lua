@@ -1,13 +1,4 @@
 return require("packer").startup(function(use)
-    use {
-      'NTBBloodbath/rest.nvim',
-      requires = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        require('rest-nvim').setup()
-      end,
-      event = 'BufWinEnter',
-    }
-    use({'kubejm/jest.nvim'})
     use({'sbdchd/neoformat'})
     use({"neovim/nvim-lspconfig"})
     use 'simrat39/rust-tools.nvim'
@@ -30,7 +21,8 @@ return require("packer").startup(function(use)
     use({
         "nvim-telescope/telescope.nvim",
         requires = {
-            {"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"},
+            {"nvim-lua/popup.nvim"}, 
+            {"nvim-lua/plenary.nvim"},
             {"nvim-telescope/telescope-fzy-native.nvim"}
         }
     })
@@ -39,7 +31,6 @@ return require("packer").startup(function(use)
     use({"tpope/vim-fugitive"})
     use({"wbthomason/packer.nvim", opt = true})
     use({"windwp/nvim-autopairs"})
-    use({"wlangstroth/vim-racket"})
     use({"preservim/nerdcommenter"})
     use({"mg979/vim-visual-multi"})
     use {
@@ -51,8 +42,15 @@ return require("packer").startup(function(use)
         require('gitsigns').setup()
       end
     }
-    use({"kyazdani42/nvim-tree.lua"})
-    -- use({"rhysd/vim-clang-format"})
+    use {
+      'kyazdani42/nvim-tree.lua',
+      requires = 'kyazdani42/nvim-web-devicons',
+      config = function() require'nvim-tree'.setup {
+        view = {
+          side = 'right',
+        }
+      } end
+    }
 
     use({"leafgarland/typescript-vim"})
     use({"peitalin/vim-jsx-typescript"})
@@ -62,8 +60,6 @@ return require("packer").startup(function(use)
 
     -- Colors!
     use {"ful1e5/onedark.nvim"}
-    use({"ayu-theme/ayu-vim"})
     use {"bluz71/vim-nightfly-guicolors"}
-    use {"gruvbox-community/gruvbox"}
     use {"norcalli/nvim-colorizer.lua"}
 end)

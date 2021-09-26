@@ -154,7 +154,7 @@ map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
 -- Nvim-tree
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
-cmd([[let g:nvim_tree_side = 'right']])
+-- cmd([[let g:nvim_tree_side = 'right']])
 cmd([[let g:nvim_tree_add_trailing = 1]])
 cmd([[let g:nvim_tree_quit_on_open = 1]])
 
