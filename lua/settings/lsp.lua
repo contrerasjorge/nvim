@@ -92,7 +92,7 @@ M.setup = function()
   })
 
   lsp_config.ocamllsp.setup{}
-
+  lsp_config.fortls.setup{}
   lsp_config.dockerls.setup({})
   lsp_config.jsonls.setup({
     commands = {

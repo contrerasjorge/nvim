@@ -23,14 +23,6 @@ require("settings.lsp").setup()
 require("nvim-autopairs").setup()
 
 
-local saga = require 'lspsaga'
-saga.init_lsp_saga({
-  code_action_icon = '💡',
-  server_filetype_map = { metals = { "sbt", "scala" } },
-  code_action_prompt = { virtual_text = false },
-})
-
-
 ----------------------------------
 -- OPTIONS -----------------------
 ----------------------------------
@@ -104,13 +96,17 @@ map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
 map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>ln", [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+map("n", "K", [[<cmd>lua vim.lsp.buf.hover()<CR>]])
+map("n", "<leader>rn", [[<cmd>lua vim.lsp.buf.rename()<CR>]])
+map("n", "<leader>ca", [[<cmd>lua vim.lsp.buf.code_action()<CR>]])
 
-map("n", "K", [[<cmd>lua require"lspsaga.hover".render_hover_doc()<CR>]])
-map("n", "<leader>rn", [[<cmd>lua require"lspsaga.rename".rename()<CR>]])
-map("n", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".code_action()<CR>]])
-map("v", "<leader>ca", [[<cmd>lua require"lspsaga.codeaction".range_code_action()<CR>]])
--- map("n", "]c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>]])
--- map("n", "[c", [[<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>]])
+map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
+map("n", "<leader>nd", [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]])
+map("n", "<leader>pd", [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
+map("n", "<leader>ld", [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
+
+map("n", "<leader>st", [[<cmd>lua require("metals").toggle_setting("showImplicitArguments")<CR>]])
+
 
 -- completion
 map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
@@ -150,11 +146,11 @@ map("n", "<leader>ds", [[<cmd>lua require"dap.ui.variables".scopes()<CR>]])
 map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
+map("n", "<leader>dl", [[<cmd>lua require"dap".run_last()<CR>]])
 
 -- Nvim-tree
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
--- cmd([[let g:nvim_tree_side = 'right']])
 cmd([[let g:nvim_tree_add_trailing = 1]])
 cmd([[let g:nvim_tree_quit_on_open = 1]])
 
@@ -351,16 +347,13 @@ cmd([[hi! link LspReferenceText CursorColumn]])
 cmd([[hi! link LspReferenceRead CursorColumn]])
 cmd([[hi! link LspReferenceWrite CursorColumn]])
 
-cmd([[hi! link LspSagaFinderSelection CursorColumn]])
-cmd([[hi! link LspSagaDocTruncateLine LspSagaHoverBorder]])
-
 ----------------------------------
 -- Color Settings ------------------
 ----------------------------------
 
 -- Colors!
 require("onedark").setup({
-  commentStyle = "italic",
+  comment_style = "italic",
 })
 
 -- cmd("colorscheme nightfly")

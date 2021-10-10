@@ -1,9 +1,9 @@
 return require("packer").startup(function(use)
+    use 'cespare/vim-toml'
     use({'sbdchd/neoformat'})
     use({"neovim/nvim-lspconfig"})
     use 'simrat39/rust-tools.nvim'
     use({"nvim-lua/lsp_extensions.nvim"})
-    use({"glepnir/lspsaga.nvim"})
     use({"sjl/tslime.vim"})
     use({"christoomey/vim-tmux-navigator"})
     use({"hrsh7th/nvim-compe"})
