@@ -6,9 +6,14 @@ return require("packer").startup(function(use)
     use({"nvim-lua/lsp_extensions.nvim"})
     use({"sjl/tslime.vim"})
     use({"christoomey/vim-tmux-navigator"})
-    use({"hrsh7th/nvim-compe"})
-    use({"hrsh7th/vim-vsnip"})
-    use({"hrsh7th/vim-vsnip-integ"})
+    use({"hrsh7th/nvim-cmp",
+      requires = {
+        { "hrsh7th/cmp-buffer" },
+        { "hrsh7th/cmp-nvim-lsp" },
+        { "hrsh7th/cmp-vsnip" },
+        { "hrsh7th/vim-vsnip" },
+      },
+    })
     use({
         "iamcco/markdown-preview.nvim",
         run = "cd app && yarn install",

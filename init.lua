@@ -16,7 +16,7 @@ cmd([[packadd packer.nvim]])
 require("plugins")
 require("settings.globals")
 require("settings.functions")
-require("settings.compe").setup()
+require("settings.cmp").setup()
 require("settings.telescope").setup()
 require("settings.lsp").setup()
 
@@ -112,12 +112,11 @@ map("n", "<leader>st", [[<cmd>lua require("metals").toggle_setting("showImplicit
 -- completion
 map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
 map("i", "<Tab>", [[pumvisible() ? "<C-n>" : "<Tab>"]], { expr = true })
-map("i", "<CR>", [[compe#confirm("<CR>")]], { expr = true })
 
-map("i", "<C-space>", [[compe#complete()]], { silent = true, expr = true })
-map("i", "<C-e>", [[compe#close("<C-e>")]], { silent = true, expr = true })
-map("i", "<C-f>", [[compe#scroll({ "delta": +4 })]], { silent = true, expr = true })
-map("i", "<C-d>", [[compe#scroll({ "delta": -4 })]], { silent = true, expr = true })
+-- map("i", "<C-space>", [[compe#complete()]], { silent = true, expr = true })
+-- map("i", "<C-e>", [[compe#close("<C-e>")]], { silent = true, expr = true })
+-- map("i", "<C-f>", [[compe#scroll({ "delta": +4 })]], { silent = true, expr = true })
+-- map("i", "<C-d>", [[compe#scroll({ "delta": -4 })]], { silent = true, expr = true })
 
 
 -- REST
@@ -144,6 +143,7 @@ map("n", "<leader>fm", [[<cmd>lua require("telescope").extensions.metals.command
 map("n", "<leader>dc", [[<cmd>lua require"dap".continue()<CR>]])
 map("n", "<leader>dr", [[<cmd>lua require"dap".repl.toggle()<CR>]])
 map("n", "<leader>ds", [[<cmd>lua require"dap.ui.variables".scopes()<CR>]])
+map("n", "<leader>dK", [[<cmd>lua require"dap.ui.widgets".hover()<CR>]])
 map("n", "<leader>dtb", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
 map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
 map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])

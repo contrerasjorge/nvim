@@ -10,7 +10,7 @@ M.setup = function()
     handlers = {
       ["textDocument/publishDiagnostics"] = shared_diagnostic_settings,
     },
-    capabilities = capabilities,
+    capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities),
   })
 
   Metals_config = require("metals").bare_config()
@@ -27,7 +27,7 @@ M.setup = function()
 
   Metals_config.init_options.statusBarProvider = "on"
   Metals_config.handlers["textDocument/publishDiagnostics"] = shared_diagnostic_settings
-  Metals_config.capabilities = capabilities
+  Metals_config.capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
   local dap = require("dap")
 
@@ -103,6 +103,7 @@ M.setup = function()
       },
     },
   })
+  lsp_config.clojure_lsp.setup{}
   lsp_config.tailwindcss.setup{}
   lsp_config.yamlls.setup({})
   lsp_config.racket_langserver.setup({})
@@ -113,7 +114,6 @@ M.setup = function()
   lsp_config.cssls.setup({})
   lsp_config.pyright.setup({})
   -- lsp_config.rust_analyzer.setup({})
-  lsp_config.clojure_lsp.setup{}
 
 
   lsp_config.tsserver.setup({
