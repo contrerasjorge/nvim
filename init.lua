@@ -353,11 +353,17 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 ----------------------------------
 
 -- Colors!
-require("onedark").setup({
-  comment_style = "italic",
+-- require("onedark").setup({
+  -- comment_style = "italic",
+-- })
+require('material').setup({
+  	italics = {
+      comments = true, -- Enable italic comments
+	},
 })
+vim.g.material_style = "deep ocean"
+cmd("colorscheme material")
 
--- cmd("colorscheme nightfly")
 cmd([[if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
