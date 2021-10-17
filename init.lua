@@ -66,6 +66,7 @@ opt.fileformat = "unix"
 -- VARIABLES ---------------------
 ----------------------------------
 g["mapleader"] = " "
+g["maplocalleader"] = ","
 g["netrw_gx"] = "<cWORD>"
 
 -- Numbers!!!

@@ -58,8 +58,18 @@ return require("packer").startup(function(use)
     -- use({ "jparise/vim-graphql" })
     use({"jose-elias-alvarez/nvim-lsp-ts-utils"})
 
+    -- Clojure?!
+    use "Olical/conjure"
+    use "tpope/vim-surround"
+    use "guns/vim-sexp"
+    use "tpope/vim-sexp-mappings-for-regular-people"
+    use "tpope/vim-dispatch"
+    use "clojure-vim/vim-jack-in"
+    use "radenling/vim-dispatch-neovim"
+
     -- Colors!
     use {"ful1e5/onedark.nvim"}
+    use "marko-cerovac/material.nvim"
     use {"bluz71/vim-nightfly-guicolors"}
     use {"norcalli/nvim-colorizer.lua"}
 end)
