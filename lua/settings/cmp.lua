@@ -22,7 +22,7 @@ M.setup = function()
       ["<CR>"] = cmp.mapping.confirm({ select = true }),
       ["<Tab>"] = function(fallback)
         if cmp.visible() then
-          cmp.selet_next_item()
+          cmp.select_next_item()
         else
           fallback()
         end

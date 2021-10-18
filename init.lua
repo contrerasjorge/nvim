@@ -109,16 +109,6 @@ map("n", "<leader>ld", [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 map("n", "<leader>st", [[<cmd>lua require("metals").toggle_setting("showImplicitArguments")<CR>]])
 
 
--- completion
-map("i", "<S-Tab>", [[pumvisible() ? "<C-p>" : "<Tab>"]], { expr = true })
-map("i", "<Tab>", [[pumvisible() ? "<C-n>" : "<Tab>"]], { expr = true })
-
--- map("i", "<C-space>", [[compe#complete()]], { silent = true, expr = true })
--- map("i", "<C-e>", [[compe#close("<C-e>")]], { silent = true, expr = true })
--- map("i", "<C-f>", [[compe#scroll({ "delta": +4 })]], { silent = true, expr = true })
--- map("i", "<C-d>", [[compe#scroll({ "delta": -4 })]], { silent = true, expr = true })
-
-
 -- REST
 map("n", "<leader>re", [[<Plug>RestNvim]])
 map("n", "<leader>rp", [[<Plug>RestNvimPreview]])
