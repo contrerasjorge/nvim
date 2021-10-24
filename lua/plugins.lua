@@ -1,4 +1,5 @@
 return require("packer").startup(function(use)
+    use 'LnL7/vim-nix'
     use 'cespare/vim-toml'
     use({'sbdchd/neoformat'})
     use({"neovim/nvim-lspconfig"})
@@ -73,8 +74,9 @@ return require("packer").startup(function(use)
     use "radenling/vim-dispatch-neovim"
 
     -- Colors!
-    use {"ful1e5/onedark.nvim"}
+    use "ful1e5/onedark.nvim"
     use "marko-cerovac/material.nvim"
-    use {"bluz71/vim-nightfly-guicolors"}
-    use {"norcalli/nvim-colorizer.lua"}
+    use "morhetz/gruvbox"
+    use "bluz71/vim-nightfly-guicolors"
+    use "norcalli/nvim-colorizer.lua"
 end)

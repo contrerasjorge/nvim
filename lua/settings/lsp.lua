@@ -4,7 +4,7 @@ M.setup = function()
   local shared_diagnostic_settings = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
   local lsp_config = require("lspconfig")
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
   lsp_config.util.default_config = vim.tbl_extend("force", lsp_config.util.default_config, {
     handlers = {
@@ -79,7 +79,7 @@ M.setup = function()
           version = "LuaJIT", -- since using mainly for neovim
           path = vim.split(package.path, ";"),
         },
-        diagnostics = { globals = { "vim", "it" } },
+        diagnostics = { globals = { "vim", "it", "describe", "before_each" } },
         workspace = {
           -- Make the server aware of Neovim runtime files
           library = {

@@ -351,7 +351,7 @@ require('material').setup({
       comments = true, -- Enable italic comments
 	},
 })
-vim.g.material_style = "deep ocean"
+vim.g.material_style = "darker"
 cmd("colorscheme material")
 
 cmd([[if exists('+termguicolors')
