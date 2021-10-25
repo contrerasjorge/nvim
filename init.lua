@@ -65,6 +65,24 @@ opt.fileformat = "unix"
 ----------------------------------
 -- VARIABLES ---------------------
 ----------------------------------
+
+map('n', 'Y', [[y$]])
+
+-- keep it centered!
+map('n', 'n', [[nzzzv]])
+map('n', 'N', [[Nzzzv]])
+map('n', 'J', [[mzJ`z]])
+
+-- undo break points
+map('i', ',', [[,<c-g>u]])
+map('i', '.', [[.<c-g>u]])
+map('i', '!', [[!<c-g>u]])
+map('i', '?', [[?<c-g>u]])
+
+
+----------------------------------
+-- VARIABLES ---------------------
+----------------------------------
 g["mapleader"] = " "
 g["maplocalleader"] = ","
 g["netrw_gx"] = "<cWORD>"
