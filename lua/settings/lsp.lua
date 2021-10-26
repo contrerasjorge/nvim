@@ -4,7 +4,6 @@ M.setup = function()
   local shared_diagnostic_settings = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
   local lsp_config = require("lspconfig")
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
   lsp_config.util.default_config = vim.tbl_extend("force", lsp_config.util.default_config, {
     handlers = {
@@ -91,9 +90,6 @@ M.setup = function()
     },
   })
 
-  lsp_config.ocamllsp.setup{}
-  lsp_config.fortls.setup{}
-  lsp_config.dockerls.setup({})
   lsp_config.jsonls.setup({
     commands = {
       Format = {
@@ -103,6 +99,10 @@ M.setup = function()
       },
     },
   })
+
+  lsp_config.ocamllsp.setup{}
+  lsp_config.fortls.setup{}
+  lsp_config.dockerls.setup({})
   lsp_config.clojure_lsp.setup{}
   lsp_config.tailwindcss.setup{}
   lsp_config.yamlls.setup({})
@@ -140,74 +140,8 @@ M.setup = function()
       return vim.loop.cwd()
     end,
   })
-
-  local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    lintIgnoreExitCode = true,
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
-  }
-
-  local function eslint_config_exists()
-    local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-    if not vim.tbl_isempty(eslintrc) then
-      return true
-    end
-
-    if vim.fn.filereadable("package.json") then
-      if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-        return true
-      end
-    end
-
-    return false
-  end
-
-  lsp_config.efm.setup {
-    on_attach = function(client)
-      client.resolved_capabilities.document_formatting = true
-      client.resolved_capabilities.goto_definition = false
-    end,
-    root_dir = function()
-      if not eslint_config_exists() then
-        return nil
-      end
-      return vim.fn.getcwd()
-    end,
-    settings = {
-      languages = {
-        javascript = {eslint},
-        javascriptreact = {eslint},
-        ["javascript.jsx"] = {eslint},
-        typescript = {eslint},
-        ["typescript.tsx"] = {eslint},
-        typescriptreact = {eslint},
-        lua = {
-          {formatCommand = "lua-format -i", formatStdin = true}
-        }
-      }
-    },
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescript.tsx",
-      "typescriptreact"
-    },
-  }
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  require('lsp_extensions.workspace.diagnostic').handler, {
-    signs = {
-      severity_limit = "Error",
-    }
-  }
-)
 
 -- Go imports
 function Goimports(timeout_ms)

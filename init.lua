@@ -63,7 +63,7 @@ opt.fileformat = "unix"
 
 
 ----------------------------------
--- VARIABLES ---------------------
+-- Fun Mappings ------------------
 ----------------------------------
 
 map('n', 'Y', [[y$]])
@@ -98,12 +98,12 @@ map("n", "<leader>nf", [[:Neoformat<CR>]])
 map('n', 'gD', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
 map('n', 'gd', [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
 map('n', 'gi', [[<cmd>lua vim.lsp.buf.implementation()<CR>]])
+map('n', 'gr', [[<cmd>lua vim.lsp.buf.references()<CR>]])
 map('n', '<C-k>', [[<cmd>lua vim.lsp.buf.signature_help()<CR>]])
 map('n', '<space>wa', [[<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]])
 map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
 map('n', '<space>wl', [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
 map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
-map('n', 'gr', [[<cmd>lua vim.lsp.buf.references()<CR>]])
 map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
 map('n', '[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
