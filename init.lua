@@ -169,6 +169,9 @@ map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
 cmd([[let g:nvim_tree_add_trailing = 1]])
 cmd([[let g:nvim_tree_quit_on_open = 1]])
 
+-- Eslint
+map("n", "<leader>es", [[:EslintFixAll<CR>]])
+
 -- Fugitive
 map("n", "<leader>gs", [[:G<CR>]])
 map("n", "<leader>gj", [[:diffget //3<CR>]])

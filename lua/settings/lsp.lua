@@ -62,33 +62,33 @@ M.setup = function()
     end
 
     -- sumneko lua
-    lsp_config.sumneko_lua.setup({
-        cmd = {
-            "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/bin/macOS/lua-language-server"
-        },
-        args = {
-            "-E",
-            "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/main.lua"
-        },
-        settings = {
-            Lua = {
-                runtime = {
-                    version = "LuaJIT", -- since using mainly for neovim
-                    path = vim.split(package.path, ";")
-                },
-                diagnostics = {
-                    globals = {"vim", "it", "describe", "before_each"}
-                },
-                workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = {
-                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                        [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-                    }
-                }
-            }
-        }
-    })
+    -- lsp_config.sumneko_lua.setup({
+        -- cmd = {
+            -- "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/bin/macOS/lua-language-server"
+        -- },
+        -- args = {
+            -- "-E",
+            -- "/Users/contrerasjorge/.cache/nvim/nlua/sumneko_lua/lua-language-server/main.lua"
+        -- },
+        -- settings = {
+            -- Lua = {
+                -- runtime = {
+                    -- version = "LuaJIT", -- since using mainly for neovim
+                    -- path = vim.split(package.path, ";")
+                -- },
+                -- diagnostics = {
+                    -- globals = {"vim", "it", "describe", "before_each"}
+                -- },
+                -- workspace = {
+                    -- -- Make the server aware of Neovim runtime files
+                    -- library = {
+                        -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                        -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
+                    -- }
+                -- }
+            -- }
+        -- }
+    -- })
 
     lsp_config.jsonls.setup({
         commands = {
@@ -102,19 +102,20 @@ M.setup = function()
     })
 
     lsp_config.dockerls.setup({})
-    lsp_config.yamlls.setup({})
+    -- lsp_config.yamlls.setup({})
     lsp_config.pyright.setup({})
-    lsp_config.rust_analyzer.setup({})
+    -- lsp_config.rust_analyzer.setup({})
 
-    lsp_config.clojure_lsp.setup {}
+    -- lsp_config.clojure_lsp.setup {}
     lsp_config.ocamllsp.setup {}
     lsp_config.hls.setup {}
-    lsp_config.elmls.setup {}
-    lsp_config.purescriptls.setup {}
+    -- lsp_config.elmls.setup {}
+    -- lsp_config.purescriptls.setup {}
 
     lsp_config.html.setup({})
     lsp_config.cssls.setup({})
-    lsp_config.tailwindcss.setup {}
+    lsp_config.eslint.setup{}
+    -- lsp_config.tailwindcss.setup {}
 
     lsp_config.tsserver.setup({
         on_attach = function(client, bufnr)
@@ -130,12 +131,12 @@ M.setup = function()
         end
     })
 
-    lsp_config.gopls.setup({
-        cmd = {"gopls", "serve"},
-        settings = {
-            gopls = {analyses = {unusedparams = true}, staticcheck = true}
-        }
-    })
+    -- lsp_config.gopls.setup({
+        -- cmd = {"gopls", "serve"},
+        -- settings = {
+            -- gopls = {analyses = {unusedparams = true}, staticcheck = true}
+        -- }
+    -- })
 
     lsp_config.clangd.setup({root_dir = function() return vim.loop.cwd() end})
 end

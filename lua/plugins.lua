@@ -51,6 +51,7 @@ return require("packer").startup(function(use)
     }
 
     use({"leafgarland/typescript-vim"})
+    use "MaxMEllon/vim-jsx-pretty"
     use({"peitalin/vim-jsx-typescript"})
     use({"styled-components/vim-styled-components"})
     -- use({ "jparise/vim-graphql" })
