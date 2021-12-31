@@ -104,7 +104,7 @@ M.setup = function()
     lsp_config.dockerls.setup({})
     -- lsp_config.yamlls.setup({})
     lsp_config.pyright.setup({})
-    -- lsp_config.rust_analyzer.setup({})
+    lsp_config.rust_analyzer.setup({})
 
     -- lsp_config.clojure_lsp.setup {}
     lsp_config.ocamllsp.setup {}
