@@ -71,4 +71,5 @@ return require("packer").startup(function(use)
     use "morhetz/gruvbox"
     use "bluz71/vim-nightfly-guicolors"
     use "norcalli/nvim-colorizer.lua"
+    use "rebelot/kanagawa.nvim"
 end)

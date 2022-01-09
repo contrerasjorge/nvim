@@ -308,7 +308,7 @@ local opts = {
     server = {} -- rust-analyer options
 }
 
-require('rust-tools').setup(opts)
+-- require('rust-tools').setup(opts)
 
 -- Racket
 cmd([[au BufEnter,BufNewFile,BufRead *.rkt set filetype=racket]])
@@ -374,13 +374,14 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 -- require("onedark").setup({
 -- comment_style = "italic",
 -- })
-require('material').setup({
-    italics = {
-        comments = true -- Enable italic comments
-    }
-})
-vim.g.material_style = "darker"
-cmd("colorscheme material")
+-- require('material').setup({
+    -- italics = {
+        -- comments = true -- Enable italic comments
+    -- }
+-- })
+-- vim.g.material_style = "darker"
+-- cmd("colorscheme material")
+cmd("colorscheme kanagawa")
 
 cmd([[if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
