@@ -9,8 +9,10 @@ return require("packer").startup(function(use)
     use({
         "hrsh7th/nvim-cmp",
         requires = {
-            {"hrsh7th/cmp-buffer"}, {"hrsh7th/cmp-nvim-lsp"},
-            {"hrsh7th/cmp-vsnip"}, {"hrsh7th/vim-vsnip"}
+            {"hrsh7th/cmp-buffer"}, 
+            {"hrsh7th/cmp-nvim-lsp"},
+            {"hrsh7th/cmp-vsnip"}, 
+            {"hrsh7th/vim-vsnip"}
         }
     })
     use({
@@ -25,7 +27,8 @@ return require("packer").startup(function(use)
     use({
         "nvim-telescope/telescope.nvim",
         requires = {
-            {"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"},
+            {"nvim-lua/popup.nvim"}, 
+            {"nvim-lua/plenary.nvim"},
             {"nvim-telescope/telescope-fzy-native.nvim"}
         }
     })
