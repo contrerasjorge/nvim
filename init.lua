@@ -104,7 +104,11 @@ map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
 map('n', '<space>wl',
     [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
 map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
-map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
+-- map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
+--   map("n", "<leader>aa", [[<cmd>lua vim.diagnostic.setqflist()<CR>]])
+map("n", "<leader>ae", [[<cmd>lua vim.diagnostic.setqflist({severity = "E"})<CR>]])
+map("n", "<leader>aw", [[<cmd>lua vim.diagnostic.setqflist({severity = "W"})<CR>]])
+map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.open_float(0, {scope = "line"})<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
 map('n', '[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
 map('n', ']d', [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]])
@@ -114,7 +118,7 @@ map("n", "gds",
 map("n", "gws",
     [[<cmd>lua require"settings.telescope".lsp_workspace_symbols()<CR>]])
 map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
-map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
+-- map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>ln",
     [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
@@ -134,6 +138,35 @@ map("n", "<leader>st",
 -- REST
 map("n", "<leader>re", [[<Plug>RestNvim]])
 map("n", "<leader>rp", [[<Plug>RestNvimPreview]])
+
+-- Harpoon 
+map("n", "<leader>ha", [[<cmd>lua require("harpoon.mark").add_file()<CR>]])
+map("n", "<leader>hu", [[<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>]])
+map("n", "<leader>hq", [[<cmd>lua require("harpoon.ui").nav_file(1)<CR>]])
+map("n", "<leader>hw", [[<cmd>lua require("harpoon.ui").nav_file(2)<CR>]])
+map("n", "<leader>he", [[<cmd>lua require("harpoon.ui").nav_file(3)<CR>]])
+map("n", "<leader>hr", [[<cmd>lua require("harpoon.ui").nav_file(4)<CR>]])
+
+
+-- Trouble
+vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+  {silent = true, noremap = true}
+)
 
 -- telescope
 map("n", "<leader>ff", [[<cmd>lua require"telescope.builtin".find_files()<CR>]])
@@ -223,6 +256,51 @@ cmd([[augroup end]])
 ----------------------------------
 -- Language Settings ------------------
 ----------------------------------
+
+require('lspkind').init({
+    -- enables text annotations
+    --
+    -- default: true
+    with_text = true,
+
+    -- default symbol map
+    -- can be either 'default' (requires nerd-fonts font) or
+    -- 'codicons' for codicon preset (requires vscode-codicons font)
+    --
+    -- default: 'default'
+    preset = 'codicons',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = "",
+      Method = "",
+      Function = "",
+      Constructor = "",
+      Field = "ﰠ",
+      Variable = "",
+      Class = "ﴯ",
+      Interface = "",
+      Module = "",
+      Property = "ﰠ",
+      Unit = "塞",
+      Value = "",
+      Enum = "",
+      Keyword = "",
+      Snippet = "",
+      Color = "",
+      File = "",
+      Reference = "",
+      Folder = "",
+      EnumMember = "",
+      Constant = "",
+      Struct = "פּ",
+      Event = "",
+      Operator = "",
+      TypeParameter = ""
+    },
+})
 
 -- Go
 cmd([[augroup ft_golang]])
