@@ -3,11 +3,7 @@ return require("packer").startup(function(use)
       "folke/trouble.nvim",
       requires = "kyazdani42/nvim-web-devicons",
       config = function()
-        require("trouble").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        }
+        require("trouble").setup {}
       end
     }
     use 'onsails/lspkind-nvim'
@@ -83,7 +79,7 @@ return require("packer").startup(function(use)
 
     -- Colors!
     use "ful1e5/onedark.nvim"
-    use "marko-cerovac/material.nvim"
+    -- use "marko-cerovac/material.nvim"
     use "morhetz/gruvbox"
     use "bluz71/vim-nightfly-guicolors"
     use "norcalli/nvim-colorizer.lua"
