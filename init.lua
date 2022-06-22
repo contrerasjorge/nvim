@@ -104,11 +104,9 @@ map('n', '<space>wr', [[<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]])
 map('n', '<space>wl',
     [[<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]])
 map('n', '<space>D', [[<cmd>lua vim.lsp.buf.type_definition()<CR>]])
--- map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]])
---   map("n", "<leader>aa", [[<cmd>lua vim.diagnostic.setqflist()<CR>]])
 map("n", "<leader>ae", [[<cmd>lua vim.diagnostic.setqflist({severity = "E"})<CR>]])
 map("n", "<leader>aw", [[<cmd>lua vim.diagnostic.setqflist({severity = "W"})<CR>]])
-map('n', '<space>e', [[<cmd>lua vim.lsp.diagnostic.open_float(0, {scope = "line"})<CR>]])
+map('n', '<leader>e', [[<cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>]])
 map("n", "<leader>d", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]]) -- buffer diagnostics only
 map('n', '[d', [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
 map('n', ']d', [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]])
@@ -118,7 +116,6 @@ map("n", "gds",
 map("n", "gws",
     [[<cmd>lua require"settings.telescope".lsp_workspace_symbols()<CR>]])
 map("n", "<leader>ws", [[<cmd>lua require"metals".worksheet_hover()<CR>]])
--- map("n", "<leader>a", [[<cmd>lua require"metals".open_all_diagnostics()<CR>]])
 map("n", "<leader>ln",
     [[<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>]])
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
@@ -199,8 +196,6 @@ map("n", "<leader>dl", [[<cmd>lua require"dap".run_last()<CR>]])
 -- Nvim-tree
 map("n", "<leader>tt", [[:NvimTreeToggle<CR>]])
 map("n", "<leader>tr", [[:NvimTreeRefresh<CR>]])
-cmd([[let g:nvim_tree_add_trailing = 1]])
-cmd([[let g:nvim_tree_quit_on_open = 1]])
 
 -- Eslint
 map("n", "<leader>es", [[:EslintFixAll<CR>]])
@@ -258,26 +253,8 @@ cmd([[augroup end]])
 ----------------------------------
 
 require('lspkind').init({
-    -- DEPRECATED (use mode instead): enables text annotations
-    --
-    -- default: true
-    -- with_text = true,
-
-    -- defines how annotations are shown
-    -- default: symbol
-    -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
     mode = 'symbol_text',
-
-    -- default symbol map
-    -- can be either 'default' (requires nerd-fonts font) or
-    -- 'codicons' for codicon preset (requires vscode-codicons font)
-    --
-    -- default: 'default'
     preset = 'codicons',
-
-    -- override preset symbols
-    --
-    -- default: {}
     symbol_map = {
       Text = "",
       Method = "",
@@ -319,64 +296,24 @@ cmd([[au BufEnter,BufNewFile,BufRead *.jet setlocal filetype=html]])
 cmd([[augroup END]])
 cmd([[autocmd BufWritePre *.go lua Goimports(1000)]])
 
--- Rust
--- cmd([[augroup ft_rust]])
--- cmd([[au!]])
--- cmd([[au BufEnter,BufNewFile,BufRead *.rs :compiler cargo]])
--- cmd([[au FileType rust set nolist]])
--- cmd([[augroup END]])
 
 local opts = {
     tools = { -- rust-tools options
-        -- automatically set inlay hints (type hints)
-        -- There is an issue due to which the hints are not applied on the first
-        -- opened file. For now, write to the file to trigger a reapplication of
-        -- the hints or just run :RustSetInlayHints.
-        -- default: true
         autoSetHints = true,
-
-        -- whether to show hover actions inside the hover window
-        -- this overrides the default hover handler
-        -- default: true
         hover_with_actions = true,
-
         runnables = {
-            -- whether to use telescope for selection menu or not
-            -- default: true
             use_telescope = true
-
-            -- rest of the opts are forwarded to telescope
         },
-
         inlay_hints = {
-            -- wheter to show parameter hints with the inlay hints or not
-            -- default: true
             show_parameter_hints = true,
-
-            -- prefix for parameter hints
-            -- default: "<-"
             parameter_hints_prefix = "<-",
-
-            -- prefix for all the other hints (type, chaining)
-            -- default: "=>"
             other_hints_prefix = "=>",
-
-            -- whether to align to the lenght of the longest line in the file
             max_len_align = false,
-
-            -- padding from the left if max_len_align is true
             max_len_align_padding = 1,
-
-            -- whether to align to the extreme right or not
             right_align = false,
-
-            -- padding from the right if right_align is true
             right_align_padding = 7
         },
-
         hover_actions = {
-            -- the border that is used for the hover window
-            -- see vim.api.nvim_open_win()
             border = {
                 {"╭", "FloatBorder"}, {"─", "FloatBorder"},
                 {"╮", "FloatBorder"}, {"│", "FloatBorder"},
@@ -385,10 +322,6 @@ local opts = {
             }
         }
     },
-
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
     server = {} -- rust-analyer options
 }
 
@@ -417,12 +350,6 @@ cmd([[au Filetype cpp setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4]])
 cmd(
     [[au Filetype cpp setlocal cinoptions=l1,t0,g0 " This fixes weird indentation of switch/case]])
 cmd([[augroup END]])
-
--- cmd([[let g:clang_format#style_options = { "AccessModifierOffset" : -4, "IndentWidth": 4, "TabWidth": 4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "BreakBeforeBraces" : "Stroustrup" }]])
--- let g:clang_format#auto_format = 1
--- map to <Leader>cf in C++ code
--- cmd([[autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>]])
--- cmd([[autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>]])
 
 cmd(
     [[let g:neoformat_cpp_clangformat = { 'exe': 'clang-format', 'args': ['--style="{ AccessModifierOffset: -4, IndentWidth: 4, TabWidth: 4, AllowShortIfStatementsOnASingleLine : true, AlwaysBreakTemplateDeclarations: true, BreakBeforeBraces: Stroustrup }"'] }]])
@@ -454,17 +381,6 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 -- Color Settings ------------------
 ----------------------------------
 
--- Colors!
--- require("onedark").setup({
--- comment_style = "italic",
--- })
--- require('material').setup({
-    -- italics = {
-        -- comments = true -- Enable italic comments
-    -- }
--- })
--- vim.g.material_style = "darker"
--- cmd("colorscheme material")
 cmd("colorscheme kanagawa")
 
 cmd([[if exists('+termguicolors')
