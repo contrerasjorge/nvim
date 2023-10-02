@@ -1,5 +1,8 @@
 -- vim.opt.guicursor = ""
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -29,5 +32,10 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
+
+vim.cmd [[
+    au BufEnter,BufNewFile,BufRead *.tmpl,*.gohtml setlocal filetype=html
+    set mouse=
+]]
 
 -- vim.cmd [[hi SignColumn guibg=none]]

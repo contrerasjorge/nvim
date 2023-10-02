@@ -1,3 +1,5 @@
+local opts = { noremap = true, silent = true }
+
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
@@ -14,16 +16,16 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+--vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -36,7 +38,34 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
+vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
+vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
+vim.keymap.set("n", "{", "{zz", opts)
+vim.keymap.set("n", "}", "}zz", opts)
+vim.keymap.set("n", "N", "Nzz", opts)
+vim.keymap.set("n", "n", "Znn", opts)
+vim.keymap.set("n", "G", "Gzz", opts)
+vim.keymap.set("n", "gg", "ggzz", opts)
+vim.keymap.set("n", "<C-i>", "<C-i>zz", opts)
+vim.keymap.set("n", "<C-o>", "<C-o>zz", opts)
+vim.keymap.set("n", "%", "%zz", opts)
+vim.keymap.set("n", "*", "*zz", opts)
+vim.keymap.set("n", "#", "#zz", opts)
+
+-- Center the buffer after a search in command mode (e.g. :/search)
+vim.api.nvim_create_autocmd("CmdLineLeave", {
+    callback = function()
+        vim.api.nvim_feedkeys("zz", "n", false)
+    end,
+})
+
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
+-- Go is good now
+vim.keymap.set(
+    "n",
+    "<leader>ee",
+    "oif err != nil {<CR>}<Esc>Oreturn err"
+)
