@@ -24,24 +24,21 @@ return require('packer').startup(function(use)
     use('ThePrimeagen/harpoon')
     use 'mbbill/undotree'
     use('tpope/vim-fugitive')
+
     use {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
+        branch = 'v3.x',
         requires = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' }, -- Required
-            {                            -- Optional
-                'williamboman/mason.nvim',
-                run = function()
-                    pcall(vim.cmd, 'MasonUpdate')
-                end,
-            },
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+            --- Uncomment these if you want to manage LSP servers from neovim
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
 
+            -- LSP Support
+            { 'neovim/nvim-lspconfig' },
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },     -- Required
-            { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-            { 'L3MON4D3/LuaSnip' },     -- Required
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'L3MON4D3/LuaSnip' },
         }
     }
 
@@ -53,4 +50,27 @@ return require('packer').startup(function(use)
     }
 
     use({ 'christoomey/vim-tmux-navigator', lazy = false })
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
+
+    use("windwp/nvim-ts-autotag")
+
+    use 'mg979/vim-visual-multi'
+
+    use 'tjdevries/colorbuddy.vim'
+    -- use 'tjdevries/gruvbuddy.nvim'
+    use { "catppuccin/nvim", as = "catppuccin" }
+    -- use 'tjdevries/cyclist.vim'
+    use { 'norcalli/nvim-colorizer.lua' }
+    use { 'mhartington/formatter.nvim' }
+
+    -- file explorer
+    use("nvim-tree/nvim-tree.lua")
+    -- vs-code like icons
+    use("nvim-tree/nvim-web-devicons")
+
+    -- linter!!!
+    use('mfussenegger/nvim-lint')
 end)
