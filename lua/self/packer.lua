@@ -67,10 +67,15 @@ return require('packer').startup(function(use)
     use { 'mhartington/formatter.nvim' }
 
     -- file explorer
-    use("nvim-tree/nvim-tree.lua")
+    -- use("nvim-tree/nvim-tree.lua")
     -- vs-code like icons
     use("nvim-tree/nvim-web-devicons")
 
     -- linter!!!
     use('mfussenegger/nvim-lint')
+
+    use {
+        "nvim-telescope/telescope-file-browser.nvim",
+        requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+    }
 end)

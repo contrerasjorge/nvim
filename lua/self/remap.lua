@@ -53,11 +53,11 @@ vim.keymap.set("n", "*", "*zz", opts)
 vim.keymap.set("n", "#", "#zz", opts)
 
 -- Center the buffer after a search in command mode (e.g. :/search)
-vim.api.nvim_create_autocmd("CmdLineLeave", {
-    callback = function()
-        vim.api.nvim_feedkeys("zz", "n", false)
-    end,
-})
+-- vim.api.nvim_create_autocmd("CmdLineLeave", {
+--     callback = function()
+--         vim.api.nvim_feedkeys("zz", "n", false)
+--     end,
+-- })
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
